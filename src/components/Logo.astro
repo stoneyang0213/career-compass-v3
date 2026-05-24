@@ -1,0 +1,43 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** 是否显示文字标题(只显示 icon 时设 false) */
+  withText?: boolean;
+  /** icon 容器大小 */
+  size?: "sm" | "md" | "lg";
+  /** 是否做链接(指向首页) */
+  asLink?: boolean;
+}
+
+const { withText = true, size = "md", asLink = true } = Astro.props;
+
+const SIZE_MAP = {
+  sm: { box: 32, icon: 18, text: "text-base" },
+  md: { box: 44, icon: 24, text: "text-lg" },
+  lg: { box: 64, icon: 32, text: "text-2xl" }
+};
+const s = SIZE_MAP[size];
+
+const Wrapper = asLink ? "a" : "div";
+---
+
+<Wrapper
+  {...asLink ? { href: "/" } : {}}
+  class="inline-flex items-center gap-3 select-none"
+>
+  <span
+    class="inline-flex items-center justify-center rounded-xl text-white shrink-0"
+    style={`width:${s.box}px; height:${s.box}px; background: var(--color-brand);`}
+  >
+    <Icon name="compass" size={s.icon} stroke={2.2} />
+  </span>
+  {withText && (
+    <span
+      class={`font-bold ${s.text}`}
+      style="color: var(--color-text-primary); font-family: var(--font-display);"
+    >
+      Career Compass
+    </span>
+  )}
+</Wrapper>

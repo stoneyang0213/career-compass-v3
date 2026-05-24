@@ -1,0 +1,33 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  iconName: "compass" | "sparkles" | "target";
+  title: string;
+  description: string;
+  accent?: string;
+}
+
+const { iconName, title, description, accent = "var(--color-brand)" } = Astro.props;
+---
+
+<div
+  class="rounded-xl p-6 transition-all duration-200 hover:-translate-y-1"
+  style={`background: var(--color-surface); box-shadow: var(--shadow-sm); border-top: 3px solid ${accent};`}
+>
+  <span
+    class="inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4"
+    style={`background: ${accent}; color: white;`}
+  >
+    <Icon name={iconName} size={24} />
+  </span>
+  <h3
+    class="text-lg font-semibold mb-2"
+    style="color: var(--color-text-primary); font-family: var(--font-display);"
+  >
+    {title}
+  </h3>
+  <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary);">
+    {description}
+  </p>
+</div>

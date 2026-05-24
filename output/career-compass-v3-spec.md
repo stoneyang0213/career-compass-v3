@@ -8,14 +8,18 @@
 
 ## 微观决策(spec 阶段替 stoneyang 拍板,避免来回问)
 
+> **修正记录(2026-05-24)**:Tailwind 与 React 版本最初估计错误,改读 v2 真实 package.json 后对齐。
+
 | 决策 | 选择 | 理由 |
 |---|---|---|
 | 包管理 | **npm** | 与 v2 一致;CF Pages build 无差别;不引入新工具 |
-| Tailwind 版本 | **v3.4.x**(锁版本) | v4 是新出的有 breaking changes;MVP 不冒险 |
-| Astro 版本 | **6.1.x**(锁) | v2 用 6.x,baseline 兼容 |
-| React 版本 | **18.x** | Astro 6.x 推荐,生态稳 |
+| Astro 版本 | **^6.1.10**(锁 v2 同版) | v2 跑通的版本,baseline 完全兼容 |
+| React 版本 | **^19.2.5**(锁 v2 同版) | v2 已用 19,prompt.ts / design preview 都基于 19 |
+| Tailwind 版本 | **^4.2.4 + @tailwindcss/vite**(锁 v2 同版) | v2 已跑通,**v3 不再二次踩坑** |
+| @astrojs/cloudflare | **^13.2.2**(锁) | v2 commit `65b2ad0` 已修过三处 breaking change |
+| wrangler | **^4.86.0** | v2 同版 |
 | TypeScript | **strict: true** | 所有新代码 strict mode |
-| Node 版本 | **20 LTS** | CF Pages 默认 |
+| Node 版本 | **22.22.1**(本机已装,v2 同版) | Astro 6.x 要求 Node 22+ |
 | Lockfile | 提交 `package-lock.json` | CF Pages build 依赖 |
 
 ---

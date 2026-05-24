@@ -1,0 +1,59 @@
+---
+interface Props {
+  variant?: "brand" | "ghost" | "outline";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  /** 自定义 class 附加 */
+  class?: string;
+  /** ARIA label,无文字按钮必填 */
+  ariaLabel?: string;
+}
+
+const {
+  variant = "brand",
+  size = "md",
+  href,
+  type = "button",
+  disabled = false,
+  class: extraClass = "",
+  ariaLabel
+} = Astro.props;
+
+const SIZE_MAP = {
+  sm: "px-4 py-1.5 text-sm",
+  md: "px-6 py-2.5 text-base",
+  lg: "px-8 py-3 text-lg"
+};
+
+// variant 用 inline style 直引 CSS variable,避免 Tailwind v4 与自定义 token 的 arbitrary value 冲突
+const VARIANT_STYLE: Record<NonNullable<Props["variant"]>, string> = {
+  brand: "background: var(--color-brand); color: white;",
+  ghost: "background: transparent; color: var(--color-text-primary);",
+  outline: "background: transparent; color: var(--color-brand); border: 1.5px solid var(--color-brand);"
+};
+
+const baseClass = [
+  "inline-flex items-center justify-center gap-2 font-semibold rounded-md",
+  "transition-opacity duration-150",
+  disabled ? "opacity-40 cursor-not-allowed" : "hover:opacity-90 active:opacity-80 cursor-pointer",
+  SIZE_MAP[size],
+  extraClass
+].join(" ");
+
+const inlineStyle = VARIANT_STYLE[variant];
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class={baseClass}
+  style={inlineStyle}
+  href={href}
+  type={!href ? type : undefined}
+  disabled={!href ? disabled : undefined}
+  aria-label={ariaLabel}
+  aria-disabled={disabled ? "true" : undefined}
+>
+  <slot />
+</Tag>

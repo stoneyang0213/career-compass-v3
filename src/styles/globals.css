@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* ====================================================================
+   Career Compass v3 · Design Tokens
+   罗盘蓝单色稳重 + 赭石 accent + 暖白底
+   ==================================================================== */
+@theme {
+  /* === Brand === */
+  --color-brand: #2D5F8B;
+  --color-brand-hover: #1F4A6F;
+  --color-brand-light: #E8F0F7;
+  --color-brand-muted: #5A85A8;
+
+  /* === Surface === */
+  --color-bg: #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-surface-warm: #F4F2EC;
+
+  /* === Text === */
+  --color-text-primary: #1C2128;
+  --color-text-secondary: #4D5560;
+  --color-text-muted: #8B939E;
+
+  /* === Accent (克制使用,仅用于报告页 matchScore badge / 推荐高亮) === */
+  --color-accent: #C97A4A;
+
+  /* === Semantic === */
+  --color-success: #2D7D5F;
+  --color-warning: #B88A2C;
+  --color-error: #9B3838;
+
+  /* === Border === */
+  --color-border: #E5E3DC;
+  --color-border-light: #F0EFE8;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 2px rgba(28, 33, 40, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 33, 40, 0.08);
+  --shadow-lg: 0 12px 32px rgba(28, 33, 40, 0.12);
+
+  /* === Fonts === */
+  --font-display: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "Noto Sans SC", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+}
+
+/* === Body base === */
+html {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}

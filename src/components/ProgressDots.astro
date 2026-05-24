@@ -1,0 +1,35 @@
+---
+interface Props {
+  /** 当前章节(1-based) */
+  current: number;
+  /** 总章数 */
+  total: number;
+}
+
+const { current, total } = Astro.props;
+const dots = Array.from({ length: total }, (_, i) => i + 1);
+---
+
+<div class="flex items-center gap-2" role="progressbar" aria-valuenow={current} aria-valuemin={1} aria-valuemax={total}>
+  {dots.map((n) => {
+    const isDone = n < current;
+    const isCurrent = n === current;
+    return (
+      <span
+        class="rounded-full transition-all duration-150"
+        style={`
+          width: ${isCurrent ? "10px" : "8px"};
+          height: ${isCurrent ? "10px" : "8px"};
+          background: ${isDone ? "var(--color-brand)" : isCurrent ? "var(--color-brand)" : "var(--color-border)"};
+          opacity: ${isDone ? "1" : isCurrent ? "1" : "0.6"};
+          border: ${isCurrent ? "2px solid var(--color-brand-light)" : "none"};
+          box-sizing: content-box;
+        `}
+        aria-label={`第 ${n} 章${isDone ? '(已完成)' : isCurrent ? '(当前)' : '(未开始)'}`}
+      />
+    );
+  })}
+  <span class="text-sm ml-2" style="color: var(--color-text-muted);">
+    {current} / {total}
+  </span>
+</div>
