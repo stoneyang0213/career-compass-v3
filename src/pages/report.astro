@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import ReportStream from "../components/ReportStream.tsx";
+
+export const prerender = false;
+---
+
+<BaseLayout title="你的职业罗盘报告 · Career Compass">
+  <Nav />
+
+  <main class="max-w-3xl mx-auto px-6 py-10 md:py-14">
+    <header class="mb-8">
+      <h1
+        class="text-3xl md:text-4xl font-bold mb-2"
+        style="color: var(--color-text-primary); font-family: var(--font-display);"
+      >
+        你的职业罗盘报告
+      </h1>
+      <p class="text-sm" style="color: var(--color-text-muted);">
+        基于你的章 1-5 测评数据,由 GLM-5.1 模型生成。预计 4-5 分钟。
+      </p>
+    </header>
+
+    <ReportStream client:load />
+
+    <footer
+      class="mt-12 pt-6 text-xs text-center"
+      style="color: var(--color-text-muted); border-top: 1px solid var(--color-border-light);"
+    >
+      <p>
+        本报告仅供参考。重大职业决策建议结合
+        <span style="color: var(--color-text-secondary);">线下专业咨询</span> +
+        <span style="color: var(--color-text-secondary);">真实行业从业者访谈</span> 综合判断。
+      </p>
+      <p class="mt-1">
+        <a
+          href="/"
+          style="color: var(--color-brand-muted);"
+          class="hover:opacity-70 transition"
+        >
+          返回首页
+        </a>
+        ·
+        <a
+          href="/assess/chapter/1"
+          style="color: var(--color-brand-muted);"
+          class="hover:opacity-70 transition"
+        >
+          重新测评
+        </a>
+      </p>
+    </footer>
+  </main>
+</BaseLayout>

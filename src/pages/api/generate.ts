@@ -15,7 +15,8 @@ import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 
 import { computeAllScores } from "../../lib/scoring";
-import { buildPrompt, validateProfileForGeneration } from "../../lib/prompt";
+import { validateProfileForGeneration } from "../../lib/prompt";
+import { buildStreamPrompt } from "../../lib/prompt-stream";
 import type { AssessmentProfile, QuizQuestion } from "../../lib/types";
 
 import mbtiQs from "../../data/questions/mbti.json";
@@ -65,8 +66,8 @@ export const POST: APIRoute = async ({ request }) => {
     valuesQs as QuizQuestion[]
   );
 
-  // 4. 构造 prompt
-  const promptText = buildPrompt({
+  // 4. 构造 prompt (v3 streaming markdown,不输出 JSON)
+  const promptText = buildStreamPrompt({
     basic: profile.basic!,
     context: profile.context!,
     computed,
