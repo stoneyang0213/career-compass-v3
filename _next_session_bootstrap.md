@@ -17,9 +17,36 @@ stoneyang 给了完整方法论(`docs/methodology/严谨性规范.md` + pipeline
 - ✅ `globals.css` 加 Likert gradient tokens
 
 待做:
-- 用 Kimi-K2.6 端到端跑一次新报告验收
 - C1 独立 fact_checker (改造三) — 留 v3.2
 - 事实库长期维护(每 6 个月按 expires_at 复核)— stoneyang 自己
+
+## 🔴 v3.1 验收发现的 2 个核心问题(2026-05-25 22:00 stoneyang 浏览器实测)
+
+**问题**:
+1. **字数明显变少**(v3.0 跑 7000+ 字 → v3.1 跑出 5000- 字)
+2. **可读性比 v3.0 差**(节奏断、说明文味重、温度不够)
+
+**根因 hypothesis**(明天要 verify):
+- prompt-stream.ts 把字数指令从 v3.0 的"7000+"改成"4500-6500 质重于量",LLM 真的收敛了
+- "事实/解读分离"硬约束让 LLM 反复说"此处缺乏数据支撑,以下为推断"等诚实声明,情感温度被压
+- ReportStream 三版块视觉强分隔(h2 加 brand 顶 border + 3em 留白)让阅读节奏被切碎
+- 三版块结构(3 个 ## )比 v3.0 的 6 section 信息密度低
+
+**明天 5 个候选修法(stoneyang 选 1-3 个组合)**:
+
+| # | 改动 | 文件 | 风险 |
+|---|---|---|---|
+| F1 | prompt 字数下限调回 **总 6500-8500 中文字**;Executive Summary 300-400 → **500-700 字** | `src/lib/prompt-stream.ts` | 低,不影响严谨性 |
+| F2 | prompt 加"叙事温度"指令:**避免连续说"此处缺乏数据"**,缺数据时用一次性总结;每段允许带感性连接词("更深一步看"/"换一个角度"等) | `src/lib/prompt-stream.ts` | 中,要平衡严谨与温度 |
+| F3 | 三版块**视觉缓和**:h2 顶 border 改 1px dashed brand-muted;3em 留白缩到 1.5em;section 间不要"硬切" | `src/components/ReportStream.tsx` article CSS | 低,纯视觉 |
+| F4 | 推荐路径"3 个试水动作"**硬约束具体到名字**(职位名/网站名/书名/工具名,不许空泛"找相关课程") | `src/lib/prompt-stream.ts` | 低,提升 actionability |
+| F5 | 在三版块内加 prompt-interlude 风格的**章节过渡话**(80-120 字段落,让节奏不断) | `src/lib/prompt-stream.ts` | 中 |
+
+**推荐组合**:F1 + F2 + F4(prompt 层 3 改,不动 UI 先试)。如果跑出来还不够丰满,再加 F3 + F5。
+
+**端到端测试预算**:每次 Kimi ~¥0.5,F1+F2+F4 一次性改完 1 次验收 = ¥0.5 投入。
+
+---
 
 ---
 
