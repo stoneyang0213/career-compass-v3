@@ -141,3 +141,14 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# === v3 项目特定 ===
+.dev.vars
+.astro/
+.wrangler/
+.claude/settings.local.json
+
+# 真实用户测评数据(含 PII),仅本地保留,远端永久挡
+baseline_from_v2/bench_results/
+# samples 待 stoneyang 确认后决定;在确认前先 ignore
+baseline_from_v2/samples/

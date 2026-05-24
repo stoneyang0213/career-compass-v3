@@ -1,0 +1,27 @@
+{
+  "confirmed_at": "2026-05-24T13:20:00+08:00",
+  "confirmed_by": "stoneyang",
+  "confirmation_round": 1,
+  "documents": {
+    "research": "output/career-compass-v3-research.md",
+    "prd": "output/career-compass-v3-prd.md",
+    "architecture": "output/career-compass-v3-architecture.md",
+    "uiux": "output/career-compass-v3-uiux.md"
+  },
+  "decisions_locked": {
+    "github_repo": "single-new-repo (stoneyang0213/career-compass-v3)",
+    "brand_color": "compass-blue #2D5F8B",
+    "hero_copy": "你的 AI 时代职业罗盘",
+    "ch5_dimensions": "all-3-kept",
+    "regenerate_button_mvp": false,
+    "llm_primary": "SiliconFlow GLM-5.1",
+    "llm_fallback": "SiliconFlow Kimi-K2.6",
+    "deploy": "Cloudflare Pages + Pages Functions streaming",
+    "state_storage": "localStorage-only",
+    "framework": "Astro 6.x + React 18 + Tailwind v4"
+  },
+  "corrections_acknowledged": [
+    "Claude 在 docs_confirm 门里编造了 '+1500 字' 估算,无 bench 对照组数据。已在 PRD 修正为定性描述,移除编造数字。"
+  ],
+  "next_phase": "spec"
+}

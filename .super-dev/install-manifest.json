@@ -1,0 +1,31 @@
+{
+  "targets": {
+    "claude-code": {
+      "family": "claude",
+      "host": "claude-code",
+      "installed_at": "2026-05-24T04:48:37.723294+00:00",
+      "paths": [
+        "D:\\projects\\career-compass-v3\\.claude-plugin\\marketplace.json",
+        "D:\\projects\\career-compass-v3\\.claude\\CLAUDE.md",
+        "D:\\projects\\career-compass-v3\\.claude\\agents\\super-dev.md",
+        "D:\\projects\\career-compass-v3\\.claude\\commands\\super-dev-seeai.md",
+        "D:\\projects\\career-compass-v3\\.claude\\commands\\super-dev.md",
+        "D:\\projects\\career-compass-v3\\.claude\\settings.local.json",
+        "D:\\projects\\career-compass-v3\\.claude\\skills\\super-dev-seeai\\SKILL.md",
+        "D:\\projects\\career-compass-v3\\.claude\\skills\\super-dev\\SKILL.md",
+        "D:\\projects\\career-compass-v3\\CLAUDE.md",
+        "D:\\projects\\career-compass-v3\\plugins\\super-dev-claude\\.claude-plugin\\plugin.json",
+        "D:\\projects\\career-compass-v3\\plugins\\super-dev-claude\\README.md",
+        "D:\\projects\\career-compass-v3\\plugins\\super-dev-claude\\skills\\super-dev-seeai\\SKILL.md",
+        "D:\\projects\\career-compass-v3\\plugins\\super-dev-claude\\skills\\super-dev\\SKILL.md"
+      ],
+      "scopes": {
+        "global": false,
+        "project": true,
+        "runtime": false
+      }
+    }
+  },
+  "updated_at": "2026-05-24T04:48:37.723333+00:00",
+  "version": 1
+}

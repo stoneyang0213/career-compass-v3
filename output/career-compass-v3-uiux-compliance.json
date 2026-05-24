@@ -1,0 +1,1940 @@
+{
+  "project_name": "career-compass-v3",
+  "generated_at": "2026-05-24T04:48:37.954125+00:00",
+  "declared_icon_library": "",
+  "declared_typography": [],
+  "declared_tokens": [],
+  "violations": [
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 你是一个职业测评中的过场解说者, 任务是在用户完成一章测评后, 给一段",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 20,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 硬约束",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 22,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 总字数, 个中文字符, 不含标点",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 23,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 三段结构, 各段约, 字",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 24,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 第一段「具体观察」, 基于用户答题的某个具体倾向, 引用具体维度名或得分",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 25,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 第二段「稀缺对比」, 这种倾向在哪些场景下罕见或有价值",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 26,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 第三段「下章钩子」, 接下来这章会问什么, 为什么对",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 27,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用感叹号",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 28,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 29,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用「很棒」「非常」「了不起」「厉害」「太好了」等夸奖词",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 30,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用「建议」「应该」「可以」「需要」等指令性词",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 31,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不重复用户答题的原文",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 32,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 输出纯文本, 无标题、无分段符、无",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 33,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不要任何引言, 以下是, 根据你的答题",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 34,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用户刚完成第, 章「性格倾向」, 计分结果",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 46,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 类型, 未知",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 47,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 各维度倾向得分",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 48,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 接下来第, 章「兴趣偏好」会问, 道",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 50,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 请基于他的, 倾向写一段, 字微反馈",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 52,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用户刚完成第, 章「兴趣偏好」, 前",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 57,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 接下来第, 章「能力锚点」会问, 后",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 60,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 请基于他的兴趣前, 维表现写一段, 字微反馈",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 62,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用户刚完成第, 章「能力锚点」, 后",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 67,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 接下来第, 章「价值排序」会问, 道舒伯价值观题目",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 70,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 请基于他的能力维度表现写一段, 字微反馈, 严格三段式",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 72,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用户刚完成第, 章「价值排序」, 舒伯",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 77,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 接下来第, 章「深度反思」会请用户填基本信息, 三段自述",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 80,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 请基于他的, 价值写一段, 字微反馈",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 82,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 从, 算出章节摘要, 供前端构造",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 92,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 前端先算好喂给, 而不是让后端再, 减少",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 93,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 实际型, 研究型, 艺术型",
+      "file": "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "line": 112,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 截断到, 字以内, 用户自述太长",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 22,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用户未填写",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 24,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 未知",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 31,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 未填",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 34,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 年工作经验",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 37,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 无工作信息",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 38,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 你是职业规划顾问。基于用户的测评结果, 给一份「试吃版」职业方向报告。",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 40,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【用户基础】",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 42,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 姓名, 岁, 未填性别",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 43,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职业阶段",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 44,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 教育",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 45,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 工作",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 46,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【测评结果】",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 48,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 类型",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 49,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 代码, 实, 研",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 50,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 价值观, 、",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 51,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 价值观, 用户最不看重, 、",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 52,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【用户自述, 三维, 第四维",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 54,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 爱, 你真心喜欢什么",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 55,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 长, 你擅长, 优势在哪",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 58,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 需, 你的价值观, 想要的生活",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 61,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【任务】",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 66,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 输出严格的, 字总长度, 结构如下",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 67,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【字段要求】",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 85,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 87,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 四维总览, 把用户的「爱, 长",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 88,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 「爱」「长」「需」直接基于用户自述",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 89,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 「利」, 市场需求, 由你基于",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 90,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 找四维交集, 不是罗列, 是综合判断",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 91,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 引用至少, 个具体测评数据点, 比如",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 92,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 个, 各, 字",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 94,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字, 具体的职业, 业态",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 95,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字, 为什么适合你, 引用",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 96,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字, 句留白勾起想看深度版的兴趣, 不要给完整理由",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 97,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 99,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 完整深度版会展开的内容预告, 四维框架贴合度图谱、行业趋势对照、短中长期行动计划、推荐学习资源等。",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 100,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 【风格硬约束】",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 102,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用, 震惊, 必看",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 103,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 不用",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 104,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 接地气, 口语化, 但不卖弄",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 105,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 方向名要具体业态, 不要给, 教育",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 106,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 留白勾人, 不要全说完",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 107,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 直接出, 不要前后加解释, 不要",
+      "file": "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "line": 108,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 中文",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 25,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 当前时间, 涉及具体工具, 产品版本时用「最新版」描述",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 27,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: ⚠️, 重要要求",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 29,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必须用中文输出",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 30,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必须基于真实测评数据, 情境信息深度解读，不要泛泛而谈",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 31,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 报告深度不少于, 中文字符，参照专业职业测评机构水准",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 32,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 每个推荐职业要有具体趋势, 数据支撑（引用下方, 数据），不要空话",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 33,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必须严格关联用户真实测评结果（每段分析点名引用, 霍兰德, 舒伯具体数据）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 34,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必须充分利用情境信息（教育, 工作, 地域",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 35,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 「择世所需」用户未填, ，请基于, 库",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 36,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 行动计划必须匹配用户当前职业阶段（在校, 应届, 在职",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 37,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 抗幻觉硬约束, 学习资源类（课程, 书",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 38,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: ❌, 不要编造具体课程名",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 40,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 《跟李睿睿学, 》, 得到",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 41,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 极客时间《, 大模型实战专栏》, 具体专栏名要核实",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 42,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: ❌, 不要引用过时工具版本",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 44,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 用, 或, 已迭代到",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 45,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 可能已被新版替代",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 46,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: ✅, 用方向描述代替",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 48,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 得到, 极客时间, 知乎知学堂上",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 49,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 最新版, 当前主流闭源大模型",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 50,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 工具, 如, 等当下主流",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 51,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: ✅, 真实可验证的资源可以保留",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 53,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 具体出版的书籍, 作者, 《纳瓦尔宝典》",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 54,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 知名公开人物, 公司, 、",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 55,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 类型",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 68,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 维度得分",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 69,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 三字代码",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 72,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 类型完整得分",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 73,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 最看重的, 项",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 77,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 最不在意的, 项",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 78,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 完整得分（高到低）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 79,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 💖, 择己所爱（兴趣与热情）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 83,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 💪, 择己所长（技能与优势）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 86,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 💰, 择己所利（个人与财务目标）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 89,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 请根据用户的, 霍兰德, 舒伯",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 98,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 高度概括用户的复合画像、核心矛盾或独特优势、首要职业方向推荐。必须明确引用情境字段。",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 105,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 择己所爱",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 109,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于, 类型的内驱机制",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 110,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于霍兰德高分维度的兴趣锚点",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 111,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 综合推断核心兴趣主题（, 关键词）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 112,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 择己所长",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 114,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于, 认知偏好转化的能力优势",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 115,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于霍兰德代码的天然天赋",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 116,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 充分利用教育, 专业背景论证差异化优势",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 117,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 给出, 项核心能力, 真实场景应用例子",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 118,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 价值观与生活方式偏好",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 120,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于舒伯, 详细解读",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 121,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 推断理想工作环境画像",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 122,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 标记任何价值观间冲突或张力",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 123,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 每条必须包含：",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 126,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职业定义, 所属行业",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 127,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 四维框架贴合度（爱, 长, 需",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 128,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 典型职责（, 条）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 129,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 能力门槛",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 130,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 行业前景（, 直接引用, 中的",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 131,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 时代视角, ：引用该行业的, （高",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 132,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 薪资范围（结合, 给地域对应区间）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 133,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 匹配度评分（, ）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 134,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职业发展轨迹（初级, 中级, 高级",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 137,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 潜在挑战与对策",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 138,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 探索路径（试水步骤）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 139,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必备技能, 推荐学习资源（具体名）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 140,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必须匹配",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 143,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 在校, 短期：本学期, 暑假",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 144,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 在职转型, 短期：, 周",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 145,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 自由职业, 短期：客户开发, 中期：定位深化",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 146,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 每条时间锚点明确、可观察可衡量、具体到行为。",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 148,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 基于用户特质给鼓励，引用一句相关名言或框架。",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 151,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 严格返回纯, （不要, 包裹，不要任何额外说明文字）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 157,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字执行摘要（必须引用情境字段）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 162,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 首要推荐职业路径名称",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 163,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字深度分析",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 167,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 主题, 主题, 主题",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 168,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 契合度详细分析",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 169,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 霍兰德契合度详细分析",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 170,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字深度分析（含教育背景差异化优势）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 173,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 能力, 能力, 能力",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 174,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 性格支撑分析",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 175,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 天赋领域分析",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 176,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字深度分析（解读舒伯, ）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 179,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 价值观, 价值观, 价值观",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 180,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 理想工作环境画像",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 181,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 生活方式与财务目标",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 182,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职业名称",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 187,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 一句话描述, 所属行业",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 188,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 爱的贴合度论证",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 190,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 长的贴合度论证（含教育, 专业背景）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 191,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 需的贴合度（必须引用, 数据, 暴露度高",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 192,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 利的贴合度（结合, 给薪资）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 193,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职责, 职责, 职责",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 195,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 门槛, 门槛, 门槛",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 196,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 行业前景（引用, ）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 197,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 时代视角：引用, 高, 中",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 198,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 薪资范围（按, 给）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 199,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 首选路径名称",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 204,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字职业发展轨迹",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 205,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 挑战, （含对策）, 挑战",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 206,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 机会, 机会, 机会",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 207,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 试水步骤, 试水步骤, 试水步骤",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 208,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 必备技能, 必备技能, 必备技能",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 209,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 推荐认证, 课程, 推荐认证",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 210,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 根据, 自适应",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 214,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 行动, 行动, 行动",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 215,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 技能, 技能",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 216,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 社交动作, 社交动作",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 217,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 资源, （具体名）, 资源",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 218,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 自适应",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 221,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 里程碑, 里程碑, 里程碑",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 222,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 简历强化, 简历强化",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 223,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 求职准备, 求职准备",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 224,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 年",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 227,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 职业目标, 职业目标",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 228,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 专业发展, 专业发展",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 229,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 收入目标, 生活方式目标",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 230,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 字导师寄语，引用一句相关名言",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 233,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 再次强调：纯, 输出，不含任何, 包裹。中文。深度不少于",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 237,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 姓名",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 244,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 年龄",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 245,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 性别",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 246,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 教育阶段",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 252,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 学校",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 253,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 专业",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 254,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 毕业年份",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 255,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 工作年限, 年",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 256,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 当前行业",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 257,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 当前角色",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 258,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 当前职业阶段",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 259,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 目标工作地",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 260,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 可接受最低年薪, 万",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 261,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 理想年薪, 万",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 262,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 其他约束",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 263,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: （情境信息为空）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 265,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 主要贴合的霍兰德, 维度",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 287,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 暴露度, （高, 任务可被",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 288,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 增长前景",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 289,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 增长驱动",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 290,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 风险",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 291,
+      "description": "Emoji characters used as functional icons"
+    },
+    {
+      "rule": "no_emoji_icons",
+      "severity": "critical",
+      "expected": "Icon from declared library",
+      "actual": "Emoji: 验证, 是否完整可用于生成（确保所有必填字段有）",
+      "file": "baseline_from_v2\\prompts\\prompt.ts",
+      "line": 305,
+      "description": "Emoji characters used as functional icons"
+    }
+  ],
+  "score": 0,
+  "files_scanned": 3,
+  "evidence_identity": {
+    "artifact_name": "uiux-compliance",
+    "project_name": "career-compass-v3",
+    "run_id": "",
+    "inputs_digest": "75c23571a800eba45706bde339cfd13ae7c14457e523cb6f690937e1fcd0554a",
+    "dependency_count": 3,
+    "dependencies": [
+      "baseline_from_v2\\prompts\\prompt-interlude.ts",
+      "baseline_from_v2\\prompts\\prompt-preview.ts",
+      "baseline_from_v2\\prompts\\prompt.ts"
+    ]
+  }
+}

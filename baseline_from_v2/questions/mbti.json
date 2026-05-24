@@ -1,0 +1,14 @@
+[
+  { "id": "m1",  "text": "在大型聚会中，我会感到精力充沛、被激发",     "chapter": 1, "order": 1,  "framework": "mbti", "meta": { "dim": "EI", "side": "E" } },
+  { "id": "m2",  "text": "独自工作时，我的效率比群体环境更高",         "chapter": 1, "order": 2,  "framework": "mbti", "meta": { "dim": "EI", "side": "I" } },
+  { "id": "m3",  "text": "我倾向于先想清楚再发言",                     "chapter": 1, "order": 3,  "framework": "mbti", "meta": { "dim": "EI", "side": "I" } },
+  { "id": "m4",  "text": "我注重事实、数据和具体细节",                 "chapter": 1, "order": 4,  "framework": "mbti", "meta": { "dim": "SN", "side": "S" } },
+  { "id": "m5",  "text": "我善于看到事物的可能性和未来走向",           "chapter": 1, "order": 5,  "framework": "mbti", "meta": { "dim": "SN", "side": "N" } },
+  { "id": "m6",  "text": "我喜欢用类比和象征来理解世界",               "chapter": 1, "order": 6,  "framework": "mbti", "meta": { "dim": "SN", "side": "N" } },
+  { "id": "m7",  "text": "做决定时，我会先考虑逻辑再考虑情感",         "chapter": 1, "order": 7,  "framework": "mbti", "meta": { "dim": "TF", "side": "T" } },
+  { "id": "m8",  "text": "我会优先考虑他人的感受",                     "chapter": 1, "order": 8,  "framework": "mbti", "meta": { "dim": "TF", "side": "F" } },
+  { "id": "m9",  "text": "我会因为公平和原则而坚持立场",               "chapter": 1, "order": 9,  "framework": "mbti", "meta": { "dim": "TF", "side": "T" } },
+  { "id": "m10", "text": "我喜欢提前规划好一切",                       "chapter": 1, "order": 10, "framework": "mbti", "meta": { "dim": "JP", "side": "J" } },
+  { "id": "m11", "text": "我享受随性、灵活的安排",                     "chapter": 1, "order": 11, "framework": "mbti", "meta": { "dim": "JP", "side": "P" } },
+  { "id": "m12", "text": "我倾向于把任务提前完成",                     "chapter": 1, "order": 12, "framework": "mbti", "meta": { "dim": "JP", "side": "J" } }
+]
