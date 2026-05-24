@@ -1,0 +1,312 @@
+{
+  "_meta": {
+    "version": "v2-2026-05-corrected",
+    "next_review": "2026-11",
+    "industries_count": 35,
+    "schema": {
+      "industry": "行业名称（中文）",
+      "tags": "RIASEC + MBTI 维度归类，用于 LLM 匹配",
+      "ai_exposure": "AI 暴露度三档：高(>50% 任务可被 AI 替代) / 中(30-50%) / 低(<30%)。基于 OECD AI 暴露报告 + 麦肯锡岗位自动化研究的主观分类",
+      "growth": "增长前景，必须引用具体数据源",
+      "drivers": "驱动力",
+      "risks": "风险，必须包含 AI 替代风险描述"
+    },
+    "sources": [
+      {"name": "WEF Future of Jobs Report 2025", "url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/", "fetched": "2026-05-05", "confidence": "中 — Anthropic IP 被 weforum.org 封锁(403/504)，数据来自 WebSearch 摘要 + 多媒体源印证", "local_archive": "data_sources/reports/WEF_Future_of_Jobs_2025.md"},
+      {"name": "OECD AI and Work / Employment Outlook 2025", "url": "https://oecd.ai/en/working-group-future-of-work", "fetched": "2026-05-05", "confidence": "高", "local_archive": "data_sources/reports/OECD_AI_and_Work_2025.md"},
+      {"name": "McKinsey AI in the Workplace 2025", "url": "https://medium.com/predict/mckinsey-just-dropped-their-2025-ai-report-here-is-the-tldr-5f32d04d8640", "fetched": "2026-05-05", "confidence": "中 — 麦肯锡官方页超时，数据来自 medium 摘要", "local_archive": "data_sources/reports/McKinsey_AI_in_Workplace_2025.md"},
+      {"name": "中国信通院《人工智能产业发展研究报告(2025年)》", "url": "https://www.sohu.com/a/983062936_121883887", "fetched": "2026-05-05", "confidence": "高", "local_archive": "data_sources/reports/CAICT_AI_Industry_2025.md"},
+      {"name": "智联招聘 2025 中国年度最佳雇主报告", "url": "https://finance.cnr.cn/rdzt/dtzgxyex/dtzgxyexhyal/20260107/t20260107_527485826.shtml", "fetched": "2026-05-05", "confidence": "中 — 央广网二级转述，部分原始引擎摘要数字未核实已删除", "local_archive": "data_sources/reports/Zhaopin_Best_Employer_2025.md"},
+      {"name": "MCN 行业发展报告(瞭望 / 新华社 2025/07)", "url": "http://lw.news.cn/20250706/be018d8a63024ba19b6838d14245c2c4/c.html", "fetched": "2026-05-05", "confidence": "高", "local_archive": "data_sources/reports/MCN_Industry_Liaowang_2025.md"},
+      {"name": "财新《AI 颠覆软件业》2026.02", "url": "https://opinion.caixin.com/2026-02-11/102413437.html", "fetched": "2026-05-05", "confidence": "高", "local_archive": "data_sources/reports/Caixin_AI_Software_2026Q1.md"},
+      {"name": "国家发改委十四五规划 / 2035 远景目标", "url": "https://www.ndrc.gov.cn/", "fetched": "2026-05-05", "confidence": "高（公开政策文件）", "local_archive": null}
+    ],
+    "removed_sources": [
+      {"name": "人社部《全国招聘求职 100 个短缺职业排行》2026 Q1", "reason": "经 fetch 核验，2026 Q1 截至 2026-05-05 未公开发布，搜索引擎给的相关 URL 内容均为 2021 Q1 历史数据被错误标记。所有引用已删除", "see": "data_sources/reports/MOHRSS_Shortage_Jobs_status.md"},
+      {"name": "中演协 MCN 报告(艾媒 / 硕远咨询口径)", "reason": "原引擎摘要的'2024 年 636 亿元'与瞭望权威源'2023 年超 2000 亿元'口径冲突，已切换到瞭望数据", "see": "data_sources/reports/MCN_Industry_Liaowang_2025.md"}
+    ],
+    "_note": "v2-corrected：每条 growth 标注引用源；2026-05-05 经 WebFetch 核验后修正多处错误（详见 removed_sources 和本地 data_sources/reports/ 存档）。所有数据源对应本地 .md 存档便于半年到期更新对照。AI 暴露度为主观分类，参考 OECD + 麦肯锡判断框架，非数值化精度。"
+  },
+  "trends": [
+    {
+      "industry": "AI 应用 / 大模型工程",
+      "tags": ["I", "R", "T", "N"],
+      "ai_exposure": "中",
+      "growth": "中国 AI 核心产业 2024 年规模 9000+ 亿元、同比 +24%，2025 年预计达 1.2 万亿元；AI 企业 6000+ 家、全球占比 16%（信通院 2025）。WEF 2025 列 AI / 机器学习专家为全球增长最快的三类岗位之一",
+      "drivers": "ChatGPT 后行业爆发、企业 AI agent 落地、国产大模型独角兽密集、智算基础设施升级",
+      "risks": "技术迭代极快需持续学习；初级开发者被 Copilot / Cursor 类工具替代，价值集中向系统设计 / 业务理解 / 模型微调上移；模型 API 价格战压缩集成商利润"
+    },
+    {
+      "industry": "AI 产品经理 / Agent 产品",
+      "tags": ["E", "I", "N"],
+      "ai_exposure": "中",
+      "growth": "麦肯锡 2025：90% 公司用 AI 但 67% 困在 pilot mode、仅 23% AI agent 规模化、64% 看到创新但仅 39% 看到 EBIT 增长 — 说明 AI 应用层产品经理缺口巨大；智联 2025：51% 企业实施 AI 应用模式（央广网）",
+      "drivers": "企业全面 AI 转型、Agent 产品形态爆发、传统 PM 转型 AI PM 路径成熟",
+      "risks": "对 AI 技术理解 + 业务深度双重要求；文档输出类工作被 AI 替代，价值集中在用户洞察 / 战略判断 / 跨团队协作"
+    },
+    {
+      "industry": "Prompt 工程 / AI 训练师",
+      "tags": ["A", "I", "N", "F"],
+      "ai_exposure": "中",
+      "growth": "OECD 2025：高 AI 暴露岗位中 72% 要求管理技能、67% 要求商业流程专业；信通院 2025：具身智能 + 多模态训练（综合能力 +30%、多模态 +50%+）带来数据标注 / 领域 prompt 设计需求结构性增长",
+      "drivers": "大模型行业化落地需要领域专家做 prompt + 数据标注、企业 AI agent 调优",
+      "risks": "基础 prompt 已被 AI 自己生成，岗位价值快速向高阶领域知识 + 安全对齐方向迁移；纯 prompt 岗位天花板低"
+    },
+    {
+      "industry": "AI 教育 / AI 课程开发",
+      "tags": ["S", "A", "N", "F"],
+      "ai_exposure": "中",
+      "growth": "WEF 2025：一线护理 + 教育类岗位是 2030 年前结构性高增长大类；麦肯锡 2025：90% 公司用 AI 但 67% 困在 pilot mode → 企业 AI 培训 / 全员 AI 通识教育需求大",
+      "drivers": "AI 工具普及需要全民 AI 素养教育、企业 AI 转型培训需求、个人 AI 自学市场",
+      "risks": "课程内容快速过时、低质量 AI 课程内卷；批量讲授 AI 替代，价值在定制化教学 / 学情诊断 / 实战陪跑"
+    },
+    {
+      "industry": "新媒体内容 / 创作者经济",
+      "tags": ["A", "E", "F"],
+      "ai_exposure": "中",
+      "growth": "中国 MCN 行业 2023 年市场规模超 2000 亿元、近 3 万家机构、千万级头部 117 家（瞭望 / 新华社 2025/07）。**90% 从业者月入不足 3000 元**，行业从高速增长进入存量变革阶段",
+      "drivers": "短视频 + 直播 + 私域常态化、AI 辅助内容生产降低门槛",
+      "risks": "市场增速放缓 / 流量内卷 / 平台政策风险；基础文案被 AI 替代，价值集中在 IP 人格 / 关系运营 / 信任资产；头部虹吸效应严重，90% 从业者收入低"
+    },
+    {
+      "industry": "短视频 / 直播带货",
+      "tags": ["E", "A", "S"],
+      "ai_exposure": "中",
+      "growth": "某短视频平台 2024 年底间接创造 573 万就业（瞭望 2025/07）；MCN 总市场超 2000 亿元、近 3 万家机构（瞭望 2025/07）",
+      "drivers": "电商内卷反推视频化 / 直播化、AI 数字人主播降低主播成本",
+      "risks": "数字人 / AI 主播替代基础带货岗位；头部主播虹吸效应严重；监管趋严（合规 / 税务 / 退货率）"
+    },
+    {
+      "industry": "知识付费 / 自媒体 IP",
+      "tags": ["A", "I", "F"],
+      "ai_exposure": "低",
+      "growth": "WEF 2025：教育 / 培训类自雇增长稳定；中国知识付费 + 个人 IP 模式从内容货架向社群 / 陪跑迁移",
+      "drivers": "成人终身学习需求、超个体经济崛起、AI 让单个 IP 服务能力放大",
+      "risks": "免费 AI 知识冲击低质量付费内容；IP 起势周期长、高度依赖个人魅力 / 信任资产"
+    },
+    {
+      "industry": "教育科技 / EdTech",
+      "tags": ["S", "A", "N", "F"],
+      "ai_exposure": "中",
+      "growth": "WEF 2025 列教育是 2030 年前增长最快的行业大类之一；中国 K12 双减后转型 STEAM / 素质教育 / 成人终身学习赛道",
+      "drivers": "AI 个性化学习、远程教育常态化、终身学习需求、企业培训预算稳定",
+      "risks": "K12 类政策不确定性、低门槛白热化竞争；批改 / 内容生成被 AI 替代，价值在产品化 / 教研 / 学情诊断"
+    },
+    {
+      "industry": "素质教育 / 营地教育",
+      "tags": ["S", "A", "F"],
+      "ai_exposure": "低",
+      "growth": "WEF 2025：一线护理 + 教育类岗位是 2030 年前结构性高增长大类；中国双减后家庭素质教育消费转向户外 / 营地 / STEAM / 体育",
+      "drivers": "中产家庭素质教育消费升级、双减政策红利、Z 世代家长育儿理念变化",
+      "risks": "重资产 / 安全责任 / 季节性强；线下场景虽 AI 替代不了，但获客 / 运营成本高"
+    },
+    {
+      "industry": "成人终身学习 / 职业培训",
+      "tags": ["S", "E", "N"],
+      "ai_exposure": "中",
+      "growth": "WEF 2025：63% 雇主将技能差距列为最大障碍、近 40% 在岗技能要求到 2030 将变化；中国成人职业培训预算稳定增长",
+      "drivers": "AI 时代技能再造、职业转型潮、企业内部 reskilling 预算",
+      "risks": "标准化课程被 AI 替代，价值集中在认证背书 + 转型陪跑 + 行业资源对接"
+    },
+    {
+      "industry": "数字产品 / UX 设计",
+      "tags": ["A", "S", "I", "N", "F"],
+      "ai_exposure": "中",
+      "growth": "全球数字设计师岗位 2022-2032 预计增长 16%（BLS，v1 历史数据）；WEF 2025 明确列平面设计师为下滑岗位之一，价值上移到 UX / 系统设计 / 用户研究",
+      "drivers": "数字化转型、企业体验竞争、AI 辅助工具普及让设计师产能放大",
+      "risks": "AI 工具降低初级 UX / 视觉价值；价值集中在策略 / 系统 / 用户研究 / 跨学科协作"
+    },
+    {
+      "industry": "产品经理 / 增长产品",
+      "tags": ["E", "I", "N"],
+      "ai_exposure": "中",
+      "growth": "OECD 2025：72% 高 AI 暴露岗位要求管理技能、67% 要求商业流程专业（产品经理符合此类型）；WEF 2025 列 fintech engineers / AI 专家为增长 top 3，PM 与之并列向战略 / 业务理解上移",
+      "drivers": "数字化转型、AI 产品形态多样化、企业全面采用产品制",
+      "risks": "PRD 文档 / 数据分析被 AI 替代；价值集中在业务判断 / 跨团队协作 / 战略洞察 / 用户深度理解"
+    },
+    {
+      "industry": "数据产品 / BI 分析",
+      "tags": ["I", "C", "T"],
+      "ai_exposure": "中",
+      "growth": "WEF 2025 列大数据专家为增长最快的三类岗位之一（与 fintech engineers / AI 专家并列 top 3）；信通院 2025 数据要素市场扩张推动数据产品需求",
+      "drivers": "企业数据驱动转型、Text-to-SQL / 自助 BI 工具普及降低分析门槛、数据要素流通市场化",
+      "risks": "Text-to-SQL + AI Agent 替代基础数据分析；高级数据科学 / 数据治理 / 商业判断仍需要人"
+    },
+    {
+      "industry": "医疗健康 / 老龄化服务",
+      "tags": ["S", "I", "C"],
+      "ai_exposure": "低",
+      "growth": "中国 60+ 人口 2030 年预计突破 4 亿，长期养老 / 慢病管理 / 康养结构性增长（国家统计局）；WEF 2025 列一线护理（frontline care）为 2030 高增长岗位大类",
+      "drivers": "老龄化、慢病高发、医保改革、AI + 医疗诊断、家庭照护商业化",
+      "risks": "重资本、政策强监管、入行门槛高（医学 / 护理证书）；中端供给已饱和，机会在高端 + 数字化 + 生态服务"
+    },
+    {
+      "industry": "心理健康 / 心理咨询",
+      "tags": ["S", "F", "A"],
+      "ai_exposure": "低",
+      "growth": "WHO 报告 COVID-19 后焦虑 / 抑郁患病率增长 25%（v1 数据）；国内注册咨询师不足千人，缺口大；AI 心理陪伴产品（character.ai 类）分流轻度需求",
+      "drivers": "Z 世代心理健康觉醒、企业 EAP 普及、老龄化社会需求",
+      "risks": "证书化路径长（2-3 年）、单纯一对一收入天花板低；需向产品化 / 培训 / IP / 团体辅导方向延伸"
+    },
+    {
+      "industry": "数字医疗 / 互联网医院",
+      "tags": ["S", "I", "T"],
+      "ai_exposure": "中",
+      "growth": "信通院 2025：大模型综合能力 +30%、多模态理解 +50%+（推动医疗 AI 影像 / 辅助诊断落地）；互联网医院政策放开，远程问诊 + 慢病管理快速增长",
+      "drivers": "AI 影像识别成熟、医保线上结算推开、医疗资源下沉需求",
+      "risks": "强监管 / 合规门槛高；AI 影像 / 初诊替代基础岗位，临床决策 / 医患沟通仍需要医生"
+    },
+    {
+      "industry": "康养 / 银发经济服务",
+      "tags": ["S", "F", "E"],
+      "ai_exposure": "低",
+      "growth": "中国 60+ 人口 2030 年突破 4 亿；银发经济从基础养老向旅居 / 兴趣社群 / 文化娱乐 / 健康管理多维扩展",
+      "drivers": "新一代老人消费力提升、退休生活质量需求、子女异地照护刚需",
+      "risks": "客单价低 / 复购周期长 / 信任建立慢；线下服务 AI 替代有限但获客成本高"
+    },
+    {
+      "industry": "绿色能源 / 双碳",
+      "tags": ["I", "R", "C"],
+      "ai_exposure": "低",
+      "growth": "中国双碳目标驱动、新能源车 / 储能 / 光伏产业链十年级别景气；WEF 2025 列绿色转型相关岗位为高增长方向",
+      "drivers": "国家战略 2030 达峰 2060 中和、欧美碳关税、电动车 + 储能爆发",
+      "risks": "技术路线竞争激烈、产能过剩周期；物理工程 AI 替代有限但需要持续技术学习"
+    },
+    {
+      "industry": "碳管理咨询 / ESG",
+      "tags": ["I", "C", "S"],
+      "ai_exposure": "中",
+      "growth": "欧盟 CBAM + 中国 ESG 信息披露要求趋严，企业碳盘查 / ESG 报告需求爆发；上市公司 ESG 报告强制披露落地",
+      "drivers": "碳关税 / ESG 投资 / 双碳考核压力 / 出海合规要求",
+      "risks": "政策周期波动、行业标准未统一；数据收集 / 报表生成被 AI 替代，价值在合规判断 / 客户关系"
+    },
+    {
+      "industry": "跨境电商 / 出海",
+      "tags": ["E", "C", "S"],
+      "ai_exposure": "中",
+      "growth": "中国制造 + Shein / TEMU 模式带动、东南亚 / 中东 / 拉美增量市场；商务部数据中国跨境电商进出口连续多年两位数增长",
+      "drivers": "国内电商内卷反推出海、平台规则成熟、跨境物流改善、AI 翻译 / 客服降低门槛",
+      "risks": "地缘政治不确定、本地合规复杂、汇率与物流风险；运营 / 客服 / 文案 AI 替代，商业判断 / 渠道关系仍需要人"
+    },
+    {
+      "industry": "海外社媒营销 / 独立站",
+      "tags": ["A", "E", "N"],
+      "ai_exposure": "中",
+      "growth": "Shopify + TikTok Shop + Amazon 三足鼎立带动独立站和 KOC 营销爆发；DTC 模式从大牌专属下沉到中小品牌",
+      "drivers": "DTC 品牌出海需求、海外社媒红利窗口、AI 内容生成大幅降低本地化成本",
+      "risks": "平台流量成本上升、海外红人合作复杂、本地化文化壁垒；AI 内容替代基础文案，价值在文化理解 + 红人关系 + 数据驱动"
+    },
+    {
+      "industry": "跨境物流 / 海外履约",
+      "tags": ["C", "R", "E"],
+      "ai_exposure": "低",
+      "growth": "跨境电商 GMV 增长带动海外仓 / 末端配送需求；菜鸟 / 极兔 / SHEIN 自建物流体系扩张到东南亚 / 中东",
+      "drivers": "跨境电商 GMV 增长、海外仓基建完善、保税仓 / 集货模式成熟",
+      "risks": "重资产 / 区域分散 / 关税政策变动；仓储物流操作 AI 替代有限，调度 / 优化层 AI 强但岗位少"
+    },
+    {
+      "industry": "高端制造 / 工业自动化",
+      "tags": ["R", "I", "C"],
+      "ai_exposure": "低",
+      "growth": "信通院 2025：工业大模型应用中后端运营管理 45.8% / 研发设计 28.3% / 生产制造 25.9%，反映高端制造全链条数字化升级；中国制造 2025 + 工业 4.0 + 国家发改委战略性产业政策推动",
+      "drivers": "国产替代、自动化升级、AI + 制造融合、新能源车产业链扩张",
+      "risks": "学历 / 工程经验门槛高、地域集中（长三角 / 珠三角）；机械操作 / 现场调试 AI 替代有限但需要适应自动化升级"
+    },
+    {
+      "industry": "半导体 / 集成电路",
+      "tags": ["I", "R", "T"],
+      "ai_exposure": "低",
+      "growth": "信通院 2025：国产芯片部署大模型精度已基本与国外主流系统持平，反映半导体国产替代加速；国家大基金 + 十四五战略性产业政策驱动",
+      "drivers": "国产替代、AI 算力需求暴涨、十四五战略性产业、国家大基金加注",
+      "risks": "技术追赶周期长 / 设备 IP 受制约、地缘政治 / 出口管制；芯片设计 / 制造工艺 / 设备运维需要工程师 + 物理实验"
+    },
+    {
+      "industry": "数字游民 / 远程顾问",
+      "tags": ["I", "A", "P"],
+      "ai_exposure": "中",
+      "growth": "全球远程岗位结构性增加，中文世界数字游民群体 2024 后规模化；东南亚 / 大理 / 安吉 / 厦门数字游民社区成熟",
+      "drivers": "公司全球化招聘、个人独立性诉求、低成本生活地兴起、AI 工具放大单兵产能",
+      "risks": "需要海外资源 / 英语 / 自律高、国内远程仍少数派；顾问 / 咨询 / 内容偏中等 AI 暴露"
+    },
+    {
+      "industry": "国际远程岗 / 跨境就业",
+      "tags": ["I", "A", "E"],
+      "ai_exposure": "中",
+      "growth": "全球远程岗位结构性增加；中国工程师 / 设计师 / 内容创作者通过海外平台（Upwork / Toptal / Deel）拿美元收入路径成熟",
+      "drivers": "海外公司全球化招聘、汇率红利、AI 工具放大单兵产能",
+      "risks": "时区 / 沟通 / 合规 / 税务复杂；海外初级岗位 AI 替代竞争激烈，需要差异化技能或本地化优势"
+    },
+    {
+      "industry": "独立开发者 / Indie Hacker",
+      "tags": ["I", "R", "T", "A"],
+      "ai_exposure": "中",
+      "growth": "AI 编码工具（Cursor / Claude Code）让单兵开发产能放大；麦肯锡 2025：90% 公司用 AI 但 67% 困在 pilot mode、仅 23% AI agent 规模化 → AI 应用层独立开发空间巨大",
+      "drivers": "AI 工具降低 SaaS 开发门槛、海外订阅市场成熟（Stripe / LemonSqueezy）、自媒体放大 IP 杠杆",
+      "risks": "起势周期长 / 收入波动大；写代码本身 AI 替代部分，差异化在产品判断 / 营销 / 用户运营"
+    },
+    {
+      "industry": "个人 IP / 自雇创业",
+      "tags": ["A", "E", "F"],
+      "ai_exposure": "低",
+      "growth": "WEF 2025：超个体经济崛起；中国一人公司模式从公众号 / 小红书 / 视频号 / 知识星球多平台铺开。MCN 数据警示：90% 从业者月入<3000 元（瞭望 2025/07），头部 / 中尾分化严重",
+      "drivers": "AI 工具放大单兵产能、平台分发降低获客门槛、信任经济兴起",
+      "risks": "高度依赖个人魅力 + 信任资产、起势周期长（1-3 年）；IP 信任 AI 替代不了但同质化竞争激烈"
+    },
+    {
+      "industry": "AgentOS / Vibe Coding 产品",
+      "tags": ["I", "N", "T"],
+      "ai_exposure": "中",
+      "growth": "信通院 2025：基础模型综合能力 12 个月内提升 30%、多模态理解 +50%+、推理 / 编程能力快速发展，2025 公有云 Token 调用量约 2000 万亿，Agent 产品形态从聊天向工作流演进",
+      "drivers": "大模型 + 工作流编排成熟（Claude Code / Cursor / Devin 类）、企业 AI agent 落地刚需",
+      "risks": "巨头快速迭代覆盖中长尾创业产品、技术门槛高 / 模型能力依赖；产品定位 / 用户洞察是差异化关键"
+    },
+    {
+      "industry": "法律 + AI（法律科技）",
+      "tags": ["I", "T", "C", "S"],
+      "ai_exposure": "中",
+      "growth": "财新 2026/02：Anthropic Claude Cowork 自动化合同审查 / NDA 分类 / 合规追踪 / 法律简报，直接冲击法律信息服务与专业 SaaS；二级市场软件 / 金融数据类股蒸发约 3000 亿美元",
+      "drivers": "合规需求扩张、企业法务部数字化、智能体进入法律工作流",
+      "risks": "AI 直接替代基础法律文档工作；垂直法律大模型贡献衰减、通用模型替代加速；价值在出庭 / 谈判 / 客户关系"
+    },
+    {
+      "industry": "财税 + AI（智能财税）",
+      "tags": ["I", "C", "T"],
+      "ai_exposure": "高",
+      "growth": "金税四期推进财税合规数字化；财新 2026/02：AI 智能体冲击专业 SaaS，二级市场 SaaS 类股蒸发约 3000 亿美元 → 财税 RPA / SaaS 加速 AI 化重塑",
+      "drivers": "金税四期数字化监管、企业财税合规成本压力、RPA + AI 融合",
+      "risks": "基础记账 / 报表 / 凭证大量被 AI 替代，初级会计岗位结构性减少；价值集中在税务规划 / 高级咨询 / 跨境合规"
+    },
+    {
+      "industry": "HR + AI（人力科技）",
+      "tags": ["S", "E", "C"],
+      "ai_exposure": "中",
+      "growth": "智联 2025：51% 企业实施 AI 应用模式，86% 员工认可扁平化结构（央广网）；OECD 2025：高 AI 暴露岗位 72% 要求管理技能、67% 要求商业流程专业",
+      "drivers": "企业 AI 转型刚需、招聘成本压力、HR 从行政向战略转型",
+      "risks": "简历筛选 / JD 撰写 / 基础培训内容被 AI 替代；价值在招聘判断 / 员工关系 / 组织诊断 / 文化建设"
+    },
+    {
+      "industry": "县域经济 / 乡村振兴",
+      "tags": ["S", "E", "C"],
+      "ai_exposure": "低",
+      "growth": "国家发改委十四五规划重点支持县域经济、乡村振兴是 2035 远景目标核心议题；返乡创业 / 县域电商持续升温",
+      "drivers": "城乡融合发展战略、消费下沉、县域基建升级、东数西算",
+      "risks": "地方资源差异大 / 政策落地不均；政策对接 / 落地执行 / 关系网络 AI 替代不了但需要本地化深耕"
+    },
+    {
+      "industry": "智慧农业 / 农业科技",
+      "tags": ["R", "I", "C"],
+      "ai_exposure": "低",
+      "growth": "国家发改委十四五重点支持现代农业；信通院 2025：大模型综合能力 +30%，跨行业 AI 落地加速，农业是延展场景（病虫害识别 / 精准种植 / 无人机植保）",
+      "drivers": "粮食安全战略、农业现代化政策、AI + 物联网在大田场景成熟",
+      "risks": "重资产 / 周期长 / 农户教育成本高；物理操作 / 作物管理 AI 替代有限但需要跨界知识（农学 + 工程）"
+    },
+    {
+      "industry": "文化出海 / 国潮设计",
+      "tags": ["A", "E", "S"],
+      "ai_exposure": "中",
+      "growth": "中国文化 IP 出海（短剧 / 网文 / 游戏 / 手办）规模快速增长；TikTok / YouTube 内容输出 + 文创周边形成产业链",
+      "drivers": "Z 世代文化自信、海外华裔市场扩张、东方美学全球化、Pop Mart 等头部 IP 验证",
+      "risks": "海外文化适配难度大 / 政策风险 / IP 保护弱；基础设计 AI 替代，价值在创意 / 文化理解 / 海外渠道"
+    }
+  ]
+}

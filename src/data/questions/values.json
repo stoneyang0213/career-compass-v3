@@ -1,0 +1,17 @@
+[
+  { "id": "v1",  "text": "我希望工作能直接帮助他人或为社会做贡献",           "chapter": 4, "order": 1,  "framework": "values", "meta": { "dim": "利他主义" } },
+  { "id": "v2",  "text": "我希望工作能让我表达美感、欣赏美的事物",           "chapter": 4, "order": 2,  "framework": "values", "meta": { "dim": "审美主义" } },
+  { "id": "v3",  "text": "我希望工作允许我创造新事物或新方法",               "chapter": 4, "order": 3,  "framework": "values", "meta": { "dim": "创造发明" } },
+  { "id": "v4",  "text": "我希望工作能持续给我智力上的挑战",                 "chapter": 4, "order": 4,  "framework": "values", "meta": { "dim": "智力刺激" } },
+  { "id": "v5",  "text": "我希望工作给我明确的成就感和成功标志",             "chapter": 4, "order": 5,  "framework": "values", "meta": { "dim": "成就动机" } },
+  { "id": "v6",  "text": "我希望工作给我充分的自由度，按自己的方式做事",     "chapter": 4, "order": 6,  "framework": "values", "meta": { "dim": "独立自主" } },
+  { "id": "v7",  "text": "我希望工作让我在他人眼中有地位和声望",             "chapter": 4, "order": 7,  "framework": "values", "meta": { "dim": "声望地位" } },
+  { "id": "v8",  "text": "我希望工作让我能管理他人、决定方向",               "chapter": 4, "order": 8,  "framework": "values", "meta": { "dim": "管理权力" } },
+  { "id": "v9",  "text": "我希望工作给我有竞争力的经济回报",                 "chapter": 4, "order": 9,  "framework": "values", "meta": { "dim": "经济报酬" } },
+  { "id": "v10", "text": "我希望工作能稳定、不容易失业",                     "chapter": 4, "order": 10, "framework": "values", "meta": { "dim": "安全稳定" } },
+  { "id": "v11", "text": "我希望工作环境舒适、整洁、不嘈杂",                 "chapter": 4, "order": 11, "framework": "values", "meta": { "dim": "工作环境" } },
+  { "id": "v12", "text": "我希望与上司有融洽公平的关系",                     "chapter": 4, "order": 12, "framework": "values", "meta": { "dim": "上司关系" } },
+  { "id": "v13", "text": "我希望与同事相处轻松、彼此支持",                   "chapter": 4, "order": 13, "framework": "values", "meta": { "dim": "同事关系" } },
+  { "id": "v14", "text": "我希望工作内容多样、不重复枯燥",                   "chapter": 4, "order": 14, "framework": "values", "meta": { "dim": "多样变化" } },
+  { "id": "v15", "text": "我希望工作能配合我希望的生活方式（弹性/远程/作息）", "chapter": 4, "order": 15, "framework": "values", "meta": { "dim": "生活方式" } }
+]

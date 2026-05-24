@@ -1,0 +1,109 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Nav from "../../../components/Nav.astro";
+import ProgressDots from "../../../components/ProgressDots.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import QuestionLikert from "../../../components/QuestionLikert.tsx";
+import { CHAPTERS, getChapterById, getChapterQuestions } from "../../../lib/chapters";
+import type { ChapterId } from "../../../lib/types";
+
+export function getStaticPaths() {
+  // 章 1-5 都走这一个动态路由
+  return CHAPTERS.map((c) => ({ params: { n: String(c.id) } }));
+}
+
+const { n } = Astro.params;
+const chapterIdNum = Number(n);
+
+// 防御:非法章节号 → 跳首页
+if (![1, 2, 3, 4, 5].includes(chapterIdNum)) {
+  return Astro.redirect("/");
+}
+
+const chapterId = chapterIdNum as ChapterId;
+const chapter = getChapterById(chapterId);
+const questions = chapter.frameworks.includes("form")
+  ? []
+  : getChapterQuestions(chapterId as 1 | 2 | 3 | 4);
+
+const prevChapter = chapterId > 1 ? chapterId - 1 : null;
+const nextChapter = chapterId < 5 ? chapterId + 1 : null;
+const isLastChapter = chapterId === 5;
+---
+
+<BaseLayout title={`第 ${chapterId} 章 · ${chapter.title} · Career Compass`}>
+  <Nav showExit />
+
+  <main class="max-w-2xl mx-auto px-6 py-10 md:py-14">
+    {/* === 章节顶部:进度 + 标题 === */}
+    <div class="mb-10">
+      <ProgressDots current={chapterId} total={5} />
+
+      <h1
+        class="text-3xl md:text-4xl font-bold mt-6 mb-2"
+        style="color: var(--color-text-primary); font-family: var(--font-display);"
+      >
+        {chapter.title}
+      </h1>
+      <p class="text-base" style="color: var(--color-text-secondary);">
+        {chapter.subtitle}
+      </p>
+      <p class="text-sm mt-2" style="color: var(--color-text-muted);">
+        {chapter.questionsCount > 0
+          ? `${chapter.questionsCount} 题 · 预计 ${chapter.estimatedMinutes} 分钟`
+          : `预计 ${chapter.estimatedMinutes} 分钟`}
+      </p>
+    </div>
+
+    {/* === 章节内容:按 framework 分支渲染 === */}
+    <div class="mb-12">
+      {(chapter.frameworks.includes("mbti") || chapter.frameworks.includes("holland") || chapter.frameworks.includes("values")) && (
+        <QuestionLikert
+          client:load
+          questions={questions}
+          chapterId={chapterId}
+          framework={chapter.frameworks[0] as "mbti" | "holland" | "values"}
+        />
+      )}
+
+      {chapter.frameworks.includes("form") && (
+        <div
+          class="rounded-xl p-6"
+          style="background: var(--color-surface-warm); border: 1px dashed var(--color-border);"
+        >
+          <p class="text-sm" style="color: var(--color-text-muted);">
+            章 5 表单(基本信息 + 个人情境 + 择己所爱/所长/所利)将在 T16 实现。
+          </p>
+        </div>
+      )}
+    </div>
+
+    {/* === 章节底部:上一章 / 下一章 === */}
+    <nav class="flex items-center justify-between gap-4">
+      {prevChapter ? (
+        <Button href={`/assess/chapter/${prevChapter}`} variant="ghost" size="md">
+          <Icon name="arrow-right" size={18} class="rotate-180" />
+          上一章
+        </Button>
+      ) : (
+        <Button href="/" variant="ghost" size="md">
+          <Icon name="arrow-right" size={18} class="rotate-180" />
+          返回首页
+        </Button>
+      )}
+
+      {nextChapter ? (
+        <Button href={`/assess/chapter/${nextChapter}`} size="md">
+          下一章
+          <Icon name="arrow-right" size={18} />
+        </Button>
+      ) : (
+        <Button href="/report" size="md">
+          {isLastChapter ? "完成测评" : "下一章"}
+          <Icon name="arrow-right" size={18} />
+        </Button>
+      )}
+    </nav>
+  </main>
+</BaseLayout>
