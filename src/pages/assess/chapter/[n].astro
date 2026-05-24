@@ -5,6 +5,7 @@ import ProgressDots from "../../../components/ProgressDots.astro";
 import Button from "../../../components/Button.astro";
 import Icon from "../../../components/Icon.astro";
 import QuestionLikert from "../../../components/QuestionLikert.tsx";
+import Chapter5Form from "../../../components/Chapter5Form.tsx";
 import { CHAPTERS, getChapterById, getChapterQuestions } from "../../../lib/chapters";
 import type { ChapterId } from "../../../lib/types";
 
@@ -68,14 +69,7 @@ const isLastChapter = chapterId === 5;
       )}
 
       {chapter.frameworks.includes("form") && (
-        <div
-          class="rounded-xl p-6"
-          style="background: var(--color-surface-warm); border: 1px dashed var(--color-border);"
-        >
-          <p class="text-sm" style="color: var(--color-text-muted);">
-            章 5 表单(基本信息 + 个人情境 + 择己所爱/所长/所利)将在 T16 实现。
-          </p>
-        </div>
+        <Chapter5Form client:load />
       )}
     </div>
 
