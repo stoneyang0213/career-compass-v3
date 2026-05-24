@@ -1,11 +1,16 @@
 // ============================================================
-// Career Compass v3 · Likert 5 选项题目组件
+// Career Compass v3.1 · 7 圆点 gradient Likert(16personalities 风)
 //
-// 用于 Holland(章 2/3)和 Values(章 4)
-// MVP 简化版:不分页、单页滚动答题、答完自动写 localStorage
+// 视觉:Agree 绿大 → 中间灰小 → Disagree 紫大,选中实心填色 + ✓
+// 计分映射:7 选项映射为 1-5 分(中性=3,两侧加权),scoring.ts 不变。
+//
+// 与 v3.0 的 5 选项方块版差异:
+//   - 视觉传达"连续 gradient",不是离散数字
+//   - 沿用同一份 store / 同一份 scoring,不动 lib 层
 // ============================================================
 
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
 import { store } from "../lib/store";
 import type { ChapterId, QuizQuestion, QuizAnswers } from "../lib/types";
 
@@ -15,49 +20,65 @@ interface Props {
   framework: "mbti" | "holland" | "values";
 }
 
-const LIKERT_OPTIONS: { value: number; label: string }[] = [
-  { value: 1, label: "完全不同意" },
-  { value: 2, label: "较不同意" },
-  { value: 3, label: "中立" },
-  { value: 4, label: "较同意" },
-  { value: 5, label: "非常同意" }
-];
-
 const FIELD_KEY_MAP: Record<Props["framework"], "mbtiAnswers" | "hollandAnswers" | "valuesAnswers"> = {
   mbti: "mbtiAnswers",
   holland: "hollandAnswers",
   values: "valuesAnswers"
 };
 
+// 7 圆点:索引 0-6,映射到 scoring.ts 用的 1-5 分(0→1, 1→1, 2→2, 3→3, 4→4, 5→5, 6→5)
+// 也就是两端各 2 个圆点都映射为强同意/强不同意。这是 16p 的设计。
+const DOT_TO_SCORE: number[] = [1, 1, 2, 3, 4, 5, 5];
+
+// 7 圆点视觉规格:size(直径)+ color(填充色)
+const DOT_VISUAL: { size: number; color: string }[] = [
+  { size: 44, color: "var(--color-agree-strong)" },
+  { size: 36, color: "var(--color-agree-mid)" },
+  { size: 28, color: "var(--color-agree-soft)" },
+  { size: 22, color: "var(--color-likert-neutral)" },
+  { size: 28, color: "var(--color-disagree-soft)" },
+  { size: 36, color: "var(--color-disagree-mid)" },
+  { size: 44, color: "var(--color-disagree-strong)" }
+];
+
 export default function QuestionLikert({ questions, chapterId, framework }: Props) {
   const [answers, setAnswers] = useState<QuizAnswers>({});
+  // 单独存"用户实际点的 7 圆点索引"用于 UI 渲染选中态(scoring 拿的是 1-5 分,但 UI 要还原成 0-6 索引)
+  const [dotIndex, setDotIndex] = useState<Record<string, number>>({});
   const [hydrated, setHydrated] = useState(false);
 
   const fieldKey = FIELD_KEY_MAP[framework];
 
-  // hydrate from localStorage on mount
   useEffect(() => {
     const profile = store.load();
     if (profile) {
       const existing = profile[fieldKey] ?? {};
-      // 只取当前章节的题目答案
       const chapterAnswers: QuizAnswers = {};
+      const restoredDots: Record<string, number> = {};
       for (const q of questions) {
-        if (existing[q.id] != null) chapterAnswers[q.id] = existing[q.id];
+        const score = existing[q.id];
+        if (score != null) {
+          chapterAnswers[q.id] = score;
+          // 反推 7 圆点索引(取 DOT_TO_SCORE 第一个 match,即 score=1→0、2→2、3→3、4→4、5→5)
+          const idx = DOT_TO_SCORE.indexOf(score);
+          if (idx >= 0) restoredDots[q.id] = idx;
+        }
       }
       setAnswers(chapterAnswers);
+      setDotIndex(restoredDots);
     }
     setHydrated(true);
   }, [framework, questions, fieldKey]);
 
-  function handleSelect(questionId: string, value: number) {
-    const next = { ...answers, [questionId]: value };
+  function handleSelect(questionId: string, idx: number) {
+    const score = DOT_TO_SCORE[idx];
+    const next = { ...answers, [questionId]: score };
     setAnswers(next);
+    setDotIndex({ ...dotIndex, [questionId]: idx });
 
-    // 合并保存到 localStorage(merge,不覆盖其它章节答案)
     const profile = store.load() ?? store.getOrCreate();
     const existing = profile[fieldKey] ?? {};
-    profile[fieldKey] = { ...existing, [questionId]: value };
+    profile[fieldKey] = { ...existing, [questionId]: score };
     store.save(profile);
   }
 
@@ -74,7 +95,7 @@ export default function QuestionLikert({ questions, chapterId, framework }: Prop
   }
 
   return (
-    <div className="space-y-4" data-chapter={chapterId} data-framework={framework}>
+    <div className="space-y-6" data-chapter={chapterId} data-framework={framework}>
       {/* 章内进度提示 */}
       <div
         className="text-sm py-2 px-3 rounded-md inline-flex items-center gap-2"
@@ -83,57 +104,87 @@ export default function QuestionLikert({ questions, chapterId, framework }: Prop
           color: allDone ? "var(--color-brand)" : "var(--color-text-muted)"
         }}
       >
-        本章已答 {answered} / {total} {allDone && "  ✓"}
+        本章已答 {answered} / {total} {allDone && "✓"}
       </div>
 
       {/* 题目列表 */}
-      {questions.map((q, idx) => {
-        const selected = answers[q.id];
+      {questions.map((q, qIdx) => {
+        const currentDot = dotIndex[q.id];
         return (
           <div
             key={q.id}
-            className="rounded-lg p-5 transition"
+            className="rounded-xl py-6 px-2 md:px-4 transition"
             style={{
               background: "var(--color-surface)",
-              boxShadow: "var(--shadow-sm)",
-              border: `1px solid ${selected ? "var(--color-brand-light)" : "var(--color-border-light)"}`
+              boxShadow: currentDot != null ? "var(--shadow-md)" : "var(--shadow-sm)",
+              border: `1px solid ${currentDot != null ? "var(--color-brand-light)" : "var(--color-border-light)"}`
             }}
           >
             <p
-              className="text-base font-medium mb-4"
-              style={{ color: "var(--color-text-primary)" }}
+              className="text-base md:text-lg font-medium mb-5 text-center px-4"
+              style={{ color: "var(--color-text-primary)", lineHeight: 1.5 }}
             >
-              <span style={{ color: "var(--color-text-muted)", marginRight: "0.5rem" }}>
-                {idx + 1}.
+              <span style={{ color: "var(--color-text-muted)", marginRight: "0.5rem", fontSize: "0.85em" }}>
+                {qIdx + 1}.
               </span>
               {q.text}
             </p>
 
-            {/* Likert 5 选项 */}
-            <div className="grid grid-cols-5 gap-2">
-              {LIKERT_OPTIONS.map((opt) => {
-                const isSelected = selected === opt.value;
+            {/* 7 圆点 gradient */}
+            <div
+              className="flex items-center justify-center gap-2 md:gap-4 select-none"
+              role="radiogroup"
+              aria-label={q.text}
+            >
+              <span
+                className="text-sm font-medium hidden sm:inline"
+                style={{ color: "var(--color-agree-strong)", minWidth: "60px", textAlign: "right" }}
+              >
+                同意
+              </span>
+
+              {DOT_VISUAL.map((v, idx) => {
+                const isSelected = currentDot === idx;
                 return (
                   <button
-                    key={opt.value}
+                    key={idx}
                     type="button"
-                    onClick={() => handleSelect(q.id, opt.value)}
-                    className="rounded-md transition py-2.5 px-1 text-xs flex flex-col items-center gap-1 cursor-pointer"
+                    onClick={() => handleSelect(q.id, idx)}
+                    className="rounded-full transition-all cursor-pointer flex items-center justify-center"
                     style={{
-                      background: isSelected ? "var(--color-brand)" : "var(--color-surface-warm)",
-                      color: isSelected ? "white" : "var(--color-text-secondary)",
-                      border: `1.5px solid ${isSelected ? "var(--color-brand)" : "transparent"}`
+                      width: `${v.size}px`,
+                      height: `${v.size}px`,
+                      background: isSelected ? v.color : "transparent",
+                      border: `2px solid ${v.color}`,
+                      transform: isSelected ? "scale(1.08)" : "scale(1)",
+                      boxShadow: isSelected ? `0 4px 12px ${v.color}66` : "none",
+                      flexShrink: 0
                     }}
-                    aria-pressed={isSelected}
-                    aria-label={`${q.text} - ${opt.label}`}
+                    aria-checked={isSelected}
+                    role="radio"
+                    aria-label={`选项 ${idx + 1}`}
                   >
-                    <span className="font-semibold">{opt.value}</span>
-                    <span className="leading-tight text-center" style={{ fontSize: "0.7rem" }}>
-                      {opt.label}
-                    </span>
+                    {isSelected && <Check size={Math.max(12, v.size * 0.4)} color="white" strokeWidth={3} />}
                   </button>
                 );
               })}
+
+              <span
+                className="text-sm font-medium hidden sm:inline"
+                style={{ color: "var(--color-disagree-strong)", minWidth: "60px", textAlign: "left" }}
+              >
+                不同意
+              </span>
+            </div>
+
+            {/* 移动端窄屏底部 Agree/Disagree 标签 */}
+            <div className="flex justify-between mt-3 px-2 sm:hidden">
+              <span className="text-xs font-medium" style={{ color: "var(--color-agree-strong)" }}>
+                同意
+              </span>
+              <span className="text-xs font-medium" style={{ color: "var(--color-disagree-strong)" }}>
+                不同意
+              </span>
             </div>
           </div>
         );

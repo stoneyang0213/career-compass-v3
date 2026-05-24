@@ -342,16 +342,83 @@ export default function ReportStream() {
           0%, 50% { opacity: 1; }
           51%, 100% { opacity: 0; }
         }
-        article p { margin: 0.6em 0; }
-        article h2 { font-size: 1.4rem; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.6em; color: var(--color-text-primary); border-bottom: 1px solid var(--color-border-light); padding-bottom: 0.3em; }
-        article h3 { font-size: 1.15rem; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: var(--color-brand); }
-        article h4 { font-size: 1rem; font-weight: 600; margin-top: 1em; margin-bottom: 0.3em; }
-        article ul, article ol { margin: 0.5em 0; padding-left: 1.5em; }
-        article li { margin: 0.25em 0; }
+
+        /* === v3.1 报告样式:三版块视觉强分隔 === */
+        article p { margin: 0.85em 0; }
+
+        /* H2 = 三版块大标题(行业背景 / 个人画像 / 行动建议),视觉上强烈分隔 */
+        article h2 {
+          font-size: 1.6rem;
+          font-weight: 700;
+          margin-top: 3em;
+          margin-bottom: 1em;
+          padding-top: 1.5em;
+          color: var(--color-text-primary);
+          font-family: var(--font-display);
+          border-top: 2px solid var(--color-brand);
+          position: relative;
+        }
+        article h2:first-of-type {
+          margin-top: 1.5em;
+          padding-top: 0.5em;
+          border-top: none;
+        }
+
+        /* H3 = 子小节(择己所爱/所长 等),用 brand-light 背景的标签感 */
+        article h3 {
+          font-size: 1.15rem;
+          font-weight: 600;
+          margin-top: 1.8em;
+          margin-bottom: 0.6em;
+          color: var(--color-brand);
+          padding-bottom: 0.25em;
+          border-bottom: 1px dashed var(--color-brand-muted);
+          display: inline-block;
+        }
+
+        /* H4 = 细分小标题 */
+        article h4 {
+          font-size: 1rem;
+          font-weight: 600;
+          margin-top: 1.2em;
+          margin-bottom: 0.4em;
+          color: var(--color-text-primary);
+        }
+
+        article ul, article ol {
+          margin: 0.6em 0;
+          padding-left: 1.5em;
+        }
+        article li { margin: 0.35em 0; line-height: 1.7; }
         article strong { color: var(--color-text-primary); font-weight: 600; }
-        article hr { border: none; border-top: 1px dashed var(--color-border); margin: 1.5em 0; }
+        article hr { border: none; border-top: 1px dashed var(--color-border); margin: 2em 0; }
+
+        /* blockquote = 免责声明(开头/结尾)+ 行业背景的"以下为参考"段 */
+        article blockquote {
+          margin: 1.2em 0;
+          padding: 0.8em 1.2em;
+          background: var(--color-surface-warm);
+          border-left: 3px solid var(--color-brand-muted);
+          color: var(--color-text-secondary);
+          font-size: 0.9em;
+          line-height: 1.7;
+          font-style: normal;
+        }
+        article blockquote p { margin: 0.3em 0; }
+
+        /* 行内 source 标注 — 给来源圆点 / 浅 brand 强调 */
+        article code {
+          padding: 0.1em 0.4em;
+          background: var(--color-brand-light);
+          color: var(--color-brand-hover);
+          border-radius: 3px;
+          font-size: 0.9em;
+          font-family: var(--font-mono);
+        }
+
         @media print {
           .loading-dot, .cursor-blink { display: none !important; }
+          article h2 { page-break-before: auto; page-break-after: avoid; }
         }
       `}</style>
     </div>

@@ -1,6 +1,33 @@
 # Career Compass v3 · 下次开工 bootstrap
 
-**最近一次收工**: 2026-05-24 晚(单日推进密度极高)
+**最近一次收工**: 2026-05-25 凌晨(v3.1 严谨性升级完成)
+
+## v3.1 升级要点(2026-05-25)
+
+stoneyang 给了完整方法论(`docs/methodology/严谨性规范.md` + pipeline.py + report_generator.py + fact_checker.py)+ 16personalities UI 参考 → 产品定位从"7000 字 MVP"升级为"事实/解读分离的可信报告"。
+
+完成:
+- ✅ 事实库 `src/data/industry_facts.json` 共 12 条(种子 3 + 扩库 9:WEF/McKinsey/HAI/LinkedIn)
+- ✅ `prompt-stream.ts` 完全重写 —— 严禁编造 / 必须引用 fact id / 三版块结构 / 模板层固定免责
+- ✅ `generate.ts` 加 facts 加载 + expires_at 过滤 + 告警 log
+- ✅ `types.ts` 加 Fact / FactsLibrary / FactReference
+- ✅ `QuestionLikert.tsx` 改 7 圆点 gradient(绿→灰→紫,16p 风)
+- ✅ `index.astro` 首页 3 step 卡(STEP 1/2/3 三色)
+- ✅ `ReportStream.tsx` 报告页三版块视觉强分隔(h2 加 brand 顶 border + 大留白)
+- ✅ `globals.css` 加 Likert gradient tokens
+
+待做:
+- 用 Kimi-K2.6 端到端跑一次新报告验收
+- C1 独立 fact_checker (改造三) — 留 v3.2
+- 事实库长期维护(每 6 个月按 expires_at 复核)— stoneyang 自己
+
+---
+
+(以下为 v3.0 历史信息,保留参考)
+
+---
+
+
 
 ## 一句话状态
 

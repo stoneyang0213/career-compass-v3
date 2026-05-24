@@ -127,6 +127,59 @@ export interface ModuleMeta {
   order: number;
 }
 
+// ─── 行业事实库类型(v3.1 新增 · 严谨性规范) ─────────────────────
+
+/**
+ * 单条行业事实条目。与 src/data/industry_facts.json 字段一一对应。
+ *
+ * 设计哲学:
+ *   1. 这是产品里**唯一允许被引用的行业数据来源**,LLM 不得自行生成。
+ *   2. 字段不可省略 — 维护者要核实并填全才能入库。
+ *   3. applies_to=macro_direction 表示宏观方向,严禁用来论证个人具体细分市场需求。
+ */
+export interface Fact {
+  /** 唯一 id,用于报告里引用与 fact_checker 反查 */
+  id: string;
+  /** 事实声明本身(必须保留原始口径,不要"软化") */
+  claim: string;
+  /** 一手出处全名(报告标题 + 机构) */
+  source: string;
+  /** 原始报告发布日期 ISO 8601 */
+  published: string;
+  /** 原始报告链接(必须能追到一手 PDF/页面) */
+  source_url: string;
+  /** 调研方法学摘要 */
+  methodology: string;
+  /** 原始口径与适用范围(防"放大") */
+  original_scope: string;
+  /** 是宏观方向还是具体市场 */
+  applies_to: "macro_direction" | "specific_market";
+  /** 核实置信度 */
+  confidence: "high" | "medium" | "low";
+  /** 本地核实日期 */
+  verified_at: string;
+  /** 失效日期,到期自动剔除并告警复核 */
+  expires_at: string;
+  /** 使用禁区(高风险数据必填) */
+  usage_note: string;
+}
+
+export interface FactsLibrary {
+  _meta: {
+    说明: string;
+    维护责任: string;
+    复核机制: string;
+    last_reviewed: string;
+  };
+  facts: Fact[];
+}
+
+/** 报告中对某条 fact 的引用 */
+export interface FactReference {
+  factId: string;
+  citedAs: string;
+}
+
 // ─── 报告 streaming 契约 (v3 新增) ─────────────────────────────────
 
 /**

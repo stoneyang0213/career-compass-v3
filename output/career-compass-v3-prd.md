@@ -1,5 +1,8 @@
 # Career Compass v3 · PRD
 
+> **v3.1 升级(2026-05-25)** —— 产品定位从"7000 字深度报告 MVP"升级为"事实/解读分离的可信报告"。落地了一套严谨性架构(详见 `docs/methodology/严谨性规范.md`):用结构化事实库约束 LLM 不得编造数字,模板层固定免责文案。报告结构从 6 section 简化为 3 版块(行业背景 / 个人画像与推理 / 行动建议)。详见本文档底部 §v3.1 升级条目。
+
+
 **主导专家**: PM
 **Super Dev 阶段**: docs
 **关联文档**: [research](./career-compass-v3-research.md) / [architecture](./career-compass-v3-architecture.md) / [uiux](./career-compass-v3-uiux.md)
@@ -174,3 +177,40 @@
 ---
 
 **确认门**: 本 PRD 等 stoneyang 在 docs_confirm 门处审完三文档一并确认。
+
+---
+
+## § v3.1 升级条目(2026-05-25)
+
+### 升级动因
+
+v3.0 MVP 跑通后,stoneyang 实测发现 LLM 在生成报告时会**编造看起来合理的数字**(把"AI 教育市场规模""企业 AI 投入"等没有真实数据支撑的数字写得很自信),违背"可信职业建议"的产品立场。
+
+### 落地的方法论(详见 `docs/methodology/`)
+
+1. **事实与解读分离**:用户测评分数=可信事实可用,行业数据=**只能从 `src/data/industry_facts.json` 引用,LLM 不得自行生成**。
+2. **结构化事实库**:每条 fact 含 `source / methodology / original_scope / applies_to / confidence / usage_note / expires_at`,自动过滤过期。
+3. **prompt 硬约束**:`buildStreamPrompt` 强制 LLM 在缺数据时写"此处缺乏数据支撑,以下为推断";引用 fact 时必须带 source。
+4. **模板层固定文案**:报告首尾免责声明 + 每条职业推荐旁"本路径真实可行性需由你自己的种子用户付费数据验证"。
+5. **三版块结构**(取代 v3.0 的 6 section):
+   - **行业背景**(赛道方向,非个人验证)
+   - **个人画像与推理**(择己所爱/所长/所需/所利 四维)
+   - **行动建议**(2-3 条职业路径 + 试水动作)
+
+### v3.1 实施清单(完成度)
+
+- [x] A1 `industry_facts.json` 种子库(3 条 McKinsey/WEF)
+- [x] A2 `prompt-stream.ts` 完全重写 — 严谨性 prompt
+- [x] A3 `generate.ts` 加 facts 加载 + 过期过滤
+- [x] A4 `types.ts` 加 `Fact / FactsLibrary / FactReference` 类型
+- [x] B1 `QuestionLikert.tsx` 改 7 圆点 gradient(16personalities 风)
+- [x] B2 `index.astro` 首页 3 step 卡(16p 风)
+- [x] B3 `ReportStream.tsx` 报告页三版块视觉强分隔
+- [x] B4 `globals.css` 加 Likert gradient tokens
+- [x] 扩库 — WebFetch 4 源新增 9 条 fact(WEF/McKinsey/Stanford HAI/LinkedIn,**含 3 条高风险数据 + 严格 usage_note**),总 12 条;high conf 10 条 / medium 2 条 / low 0 条
+- [ ] C1 独立 `check-report.ts` fact_checker(留 v3.2)
+
+### v3.1 仍欠的
+
+- **C1 独立校验**(改造三):上线初期靠人工抽查 stoneyang 自己。跑稳后再自动化。
+- **事实库长期维护**:产品方持续成本,不能甩给 LLM。stoneyang 应每 6 个月按 `expires_at` 复核一次。

@@ -24,6 +24,15 @@
   /* === Accent (克制使用,仅用于报告页 matchScore badge / 推荐高亮) === */
   --color-accent: #C97A4A;
 
+  /* === Likert gradient (B1,16p 风) — Agree 绿 → 中灰 → Disagree 紫 === */
+  --color-agree-strong: #4CAF8E;
+  --color-agree-mid:    #88C7B0;
+  --color-agree-soft:   #B6DECE;
+  --color-likert-neutral: #C9C4C0;
+  --color-disagree-soft: #C9A8C6;
+  --color-disagree-mid:  #A57BA1;
+  --color-disagree-strong: #7B4F77;
+
   /* === Semantic === */
   --color-success: #2D7D5F;
   --color-warning: #B88A2C;

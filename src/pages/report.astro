@@ -18,11 +18,19 @@ export const prerender = false;
         你的职业罗盘报告
       </h1>
       <p class="text-sm" style="color: var(--color-text-muted);">
-        基于你的章 1-5 测评数据,由 GLM-5.1 模型生成。预计 4-5 分钟。
+        基于你的章 1-5 测评数据,由 SiliconFlow 上的 AI 模型生成。预计 4-5 分钟。
       </p>
     </header>
 
-    <ReportStream client:load />
+    <ReportStream client:only="react">
+      <div
+        slot="fallback"
+        class="rounded-xl p-6 text-center"
+        style="background: var(--color-surface-warm); color: var(--color-text-muted);"
+      >
+        正在加载报告生成器...
+      </div>
+    </ReportStream>
 
     <footer
       class="mt-12 pt-6 text-xs text-center"

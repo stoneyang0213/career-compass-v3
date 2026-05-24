@@ -4,7 +4,6 @@ import Nav from "../components/Nav.astro";
 import Logo from "../components/Logo.astro";
 import Button from "../components/Button.astro";
 import Icon from "../components/Icon.astro";
-import ValueCard from "../components/ValueCard.astro";
 ---
 
 <BaseLayout>
@@ -41,33 +40,100 @@ import ValueCard from "../components/ValueCard.astro";
       </div>
     </section>
 
-    {/* === 三张价值卡 === */}
-    <section class="px-6 pb-20">
-      <div class="max-w-4xl mx-auto">
+    {/* === 3 Step 卡(16personalities 风) === */}
+    <section class="px-6 pb-24">
+      <div class="max-w-5xl mx-auto">
         <h2
-          class="text-center text-sm font-semibold uppercase tracking-wider mb-8"
-          style="color: var(--color-text-muted);"
+          class="text-center text-sm font-semibold uppercase tracking-widest mb-12"
+          style="color: var(--color-text-muted); letter-spacing: 0.15em;"
         >
-          这份报告会回答的 3 个问题
+          整个流程分 3 步
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <ValueCard
-            iconName="compass"
-            title="我适合干什么?"
-            description="基于 Holland 兴趣 + MBTI 性格 + Super 价值观三套量表,给你 3 条具体职业路径推荐。"
-          />
-          <ValueCard
-            iconName="sparkles"
-            title="AI 时代怎么不被替代?"
-            description="结合 35 个行业的 AI 暴露度数据,告诉你哪些方向是 AI 时代的护城河。"
-            accent="var(--color-accent)"
-          />
-          <ValueCard
-            iconName="target"
-            title="下一步该做什么?"
-            description="每条推荐路径都附具体的下一步动作 —— 学什么、做什么项目、找谁聊。"
-          />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Step 1 */}
+          <div
+            class="relative rounded-2xl px-7 pt-16 pb-7 transition-all duration-200 hover:-translate-y-1"
+            style="background: linear-gradient(180deg, #E8F0F7 0%, var(--color-surface) 100%); box-shadow: var(--shadow-sm); border-top: 3px solid var(--color-brand);"
+          >
+            <span
+              class="absolute top-5 left-7 px-4 py-1 rounded-full text-xs font-bold tracking-wider"
+              style="background: var(--color-brand); color: white; letter-spacing: 0.1em;"
+            >
+              STEP 1
+            </span>
+            <div
+              class="absolute top-4 right-6 flex items-center justify-center rounded-2xl"
+              style="width: 56px; height: 56px; background: rgba(45, 95, 139, 0.08);"
+            >
+              <Icon name="check" size={28} class="text-brand" stroke={2.4} />
+            </div>
+            <h3
+              class="text-xl font-bold mb-3"
+              style="color: var(--color-text-primary); font-family: var(--font-display);"
+            >
+              完成测评
+            </h3>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary);">
+              5 章 39 道选择题 + 3 道自由文本,15 分钟左右。Holland 兴趣 / MBTI 性格 / Super 价值观三套量表全覆盖。
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div
+            class="relative rounded-2xl px-7 pt-16 pb-7 transition-all duration-200 hover:-translate-y-1"
+            style="background: linear-gradient(180deg, #FDEEE9 0%, var(--color-surface) 100%); box-shadow: var(--shadow-sm); border-top: 3px solid var(--color-accent);"
+          >
+            <span
+              class="absolute top-5 left-7 px-4 py-1 rounded-full text-xs font-bold tracking-wider"
+              style="background: var(--color-accent); color: white; letter-spacing: 0.1em;"
+            >
+              STEP 2
+            </span>
+            <div
+              class="absolute top-4 right-6 flex items-center justify-center rounded-2xl"
+              style="width: 56px; height: 56px; background: rgba(201, 122, 74, 0.10);"
+            >
+              <Icon name="sparkles" size={28} class="text-accent" stroke={2.4} />
+            </div>
+            <h3
+              class="text-xl font-bold mb-3"
+              style="color: var(--color-text-primary); font-family: var(--font-display);"
+            >
+              生成深度报告
+            </h3>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary);">
+              4-5 分钟,AI 基于你的真实测评 + 公开权威报告数据,生成行业背景 / 个人画像 / 行动建议三版块的可信报告。
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div
+            class="relative rounded-2xl px-7 pt-16 pb-7 transition-all duration-200 hover:-translate-y-1"
+            style="background: linear-gradient(180deg, #E8F5EE 0%, var(--color-surface) 100%); box-shadow: var(--shadow-sm); border-top: 3px solid var(--color-success);"
+          >
+            <span
+              class="absolute top-5 left-7 px-4 py-1 rounded-full text-xs font-bold tracking-wider"
+              style="background: var(--color-success); color: white; letter-spacing: 0.1em;"
+            >
+              STEP 3
+            </span>
+            <div
+              class="absolute top-4 right-6 flex items-center justify-center rounded-2xl"
+              style="width: 56px; height: 56px; background: rgba(45, 125, 95, 0.10);"
+            >
+              <Icon name="target" size={28} stroke={2.4} />
+            </div>
+            <h3
+              class="text-xl font-bold mb-3"
+              style="color: var(--color-text-primary); font-family: var(--font-display);"
+            >
+              拿走具体行动
+            </h3>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary);">
+              每条推荐路径都附本周/本月就能做的 3 个试水动作。复制全文或打印为 PDF 留存。
+            </p>
+          </div>
         </div>
       </div>
     </section>

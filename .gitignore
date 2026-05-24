@@ -152,3 +152,9 @@ vite.config.ts.timestamp-*
 baseline_from_v2/bench_results/
 # samples 待 stoneyang 确认后决定;在确认前先 ignore
 baseline_from_v2/samples/
+
+# === 紧急修复 2026-05-25 ===
+# stoneyang 个人案例文本(测评 dimensions 真心话),散落 root 容易误 add
+# 通用挡:root 中文名 .txt 全挡(stoneyang 不会在 root 创建供 git 跟踪的中文 .txt)
+个人案例文本.txt
+*个人*.txt

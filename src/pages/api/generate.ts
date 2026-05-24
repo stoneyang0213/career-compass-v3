@@ -17,11 +17,36 @@ import { env } from "cloudflare:workers";
 import { computeAllScores } from "../../lib/scoring";
 import { validateProfileForGeneration } from "../../lib/prompt";
 import { buildStreamPrompt } from "../../lib/prompt-stream";
-import type { AssessmentProfile, QuizQuestion } from "../../lib/types";
+import type { AssessmentProfile, QuizQuestion, Fact, FactsLibrary } from "../../lib/types";
 
 import mbtiQs from "../../data/questions/mbti.json";
 import hollandQs from "../../data/questions/holland.json";
 import valuesQs from "../../data/questions/values.json";
+import factsLibrary from "../../data/industry_facts.json";
+
+/**
+ * 加载事实库,按 expires_at 过滤掉过期条目。
+ * 过期条目不喂给 LLM,但会 console.warn 提醒维护团队复核。
+ */
+function loadValidFacts(): Fact[] {
+  const lib = factsLibrary as unknown as FactsLibrary;
+  const today = new Date().toISOString().slice(0, 10);
+  const valid: Fact[] = [];
+  const expired: string[] = [];
+
+  for (const f of lib.facts) {
+    if (f.expires_at < today) {
+      expired.push(f.id);
+    } else {
+      valid.push(f);
+    }
+  }
+
+  if (expired.length > 0) {
+    console.warn(`[facts] ${expired.length} 条事实已过期需复核:`, expired);
+  }
+  return valid;
+}
 
 export const prerender = false;
 
@@ -36,11 +61,17 @@ interface RuntimeEnv {
 export const POST: APIRoute = async ({ request }) => {
   const e = env as RuntimeEnv;
 
+  // DEBUG: 看 env 到底注入了什么
+  console.log("[api/generate] env keys:", Object.keys(e));
+  console.log("[api/generate] LLM_MODEL_PRIMARY:", JSON.stringify(e.LLM_MODEL_PRIMARY));
+  console.log("[api/generate] LLM_MODEL_FALLBACK:", JSON.stringify(e.LLM_MODEL_FALLBACK));
+
   // 0. env 校验(常见生产 deploy 后忘配 secret 的坑)
   if (!e.SILICONFLOW_API_KEY) {
     return jsonError(500, "missing_env", "SILICONFLOW_API_KEY 未配置 (CF Pages dashboard 或本地 .dev.vars)");
   }
   const modelPrimary = e.LLM_MODEL_PRIMARY ?? "Pro/zai-org/GLM-5.1";
+  console.log("[api/generate] resolved modelPrimary:", modelPrimary);
 
   // 1. 解析 body
   let profile: AssessmentProfile;
@@ -66,12 +97,14 @@ export const POST: APIRoute = async ({ request }) => {
     valuesQs as QuizQuestion[]
   );
 
-  // 4. 构造 prompt (v3 streaming markdown,不输出 JSON)
+  // 4. 加载有效事实库(过期自动剔除),构造 v3.1 严谨性 prompt
+  const facts = loadValidFacts();
   const promptText = buildStreamPrompt({
     basic: profile.basic!,
     context: profile.context!,
     computed,
-    dimensions: profile.dimensions!
+    dimensions: profile.dimensions!,
+    facts
   });
 
   // 5. fetch SiliconFlow stream
@@ -100,7 +133,9 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonError(502, "siliconflow_upstream_failed", `LLM 上游返回 ${upstream.status}: ${text.slice(0, 200)}`);
   }
 
-  // 6. 在 SSE 流头部注入 meta 事件
+  // 6. 在 SSE 流头部注入 meta 事件,然后 forward upstream chunks
+  //    用 ReadableStream controller 模式,所有 IO 在 start() 内 await,
+  //    避免 wrangler/miniflare 的 hang detection 误判 fire-and-forget pipe。
   const metaPayload = JSON.stringify({
     event: "meta",
     model: modelPrimary,
@@ -111,17 +146,37 @@ export const POST: APIRoute = async ({ request }) => {
     }
   });
 
-  const { readable, writable } = new TransformStream();
-  const writer = writable.getWriter();
-  await writer.write(new TextEncoder().encode(`data: ${metaPayload}\n\n`));
-  writer.releaseLock();
+  const encoder = new TextEncoder();
+  const upstreamBody = upstream.body;
 
-  // pipe upstream body 到 writable
-  upstream.body.pipeTo(writable).catch((err) => {
-    console.error("[api/generate] pipe error:", err);
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      // 6a. 先送 meta 事件
+      controller.enqueue(encoder.encode(`data: ${metaPayload}\n\n`));
+
+      // 6b. 边读边送 upstream chunks(全程 await,无 fire-and-forget)
+      const reader = upstreamBody.getReader();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          controller.enqueue(value);
+        }
+      } catch (err) {
+        console.error("[api/generate] upstream read error:", err);
+        const errPayload = JSON.stringify({
+          event: "error",
+          reason: "upstream_read_error",
+          message: String(err)
+        });
+        controller.enqueue(encoder.encode(`data: ${errPayload}\n\n`));
+      } finally {
+        controller.close();
+      }
+    }
   });
 
-  return new Response(readable, {
+  return new Response(stream, {
     status: 200,
     headers: {
       "Content-Type": "text/event-stream",
