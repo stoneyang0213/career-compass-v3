@@ -1,134 +1,154 @@
 # Career Compass v3 · 下次开工 bootstrap
 
-**最近一次收工**: 2026-05-24(周日下午)
+**最近一次收工**: 2026-05-24 晚(单日推进密度极高)
 
 ## 一句话状态
 
-**v3 走完 super-dev 流水线 [5/9] spec + T01-T04 已落地推送到 GitHub**(`stoneyang0213/career-compass-v3`),本机 `npm run dev` 浏览器可见完整首页(Logo + Nav + Hero + 3 价值卡 + footer)。下次从 **T05(数据迁移)+ T06-T08** 起步,接 T09 章节布局。
+**v3 走完 super-dev [1-5/9] + T01-T18 全部完成**,Astro build 通过 6 个静态页 + `/api/generate` server route。**只差 T19 fallback + T20 ReportStream + T21-T23 端到端 deploy**,大概 3-4 小时 MVP 上线。
 
-🟢 super-dev research / docs / docs_confirm / spec / T01-T04 完成
-🟡 samples/ 4 张 PNG 待 stoneyang 看完决定保留/删除
-🔵 T05-T23 待跑
+🟢 全部 5 章 UI 可走通(浏览器实测)
+🟢 `/api/generate` server route 已写,buildPrompt+GLM-5.1+SiliconFlow 链路接通,**未在浏览器实跑过**
+🟡 `.dev.vars` 已写本地(挡远端);GitHub 已 push 到 commit `e0d6bf1+`
+🔵 T19 ReportStream / T20 fallback / T21-T23 deploy 待跑
 
 ## 今天做了什么(2026-05-24)
 
-### 上午:Super Dev 学习 + 接入
-- 完成 `/codebase-to-course super-dev`:把 shangyankeji/super-dev 拆成 6 模块交互式课程 → `D:\projects\super-dev-course\index.html`,193KB / 2670 行,6 模块 / 6 quizzes / 3 data flow / 2 group chat
-- `uv tool install super-dev` 装好 `super-dev 2.4.0` → `C:\Users\33625\.local\bin\super-dev.exe`
-- 把 super-dev 装到 `D:\projects\career-compass-v2`(实验性,backup 了 CLAUDE.md)
+### 上午
+- `/codebase-to-course super-dev` → super-dev 拆课程 6 模块,193KB HTML(`D:\projects\super-dev-course\`)
+- `uv tool install super-dev` 装好 2.4.0
 
-### 下午:v3 项目从 0 到首页跑通
-- 用产品经理模式拍板 3 根本决策:
-  - 路径:新建 `D:\projects\career-compass-v3` 空目录
-  - 范围:保留 v2 prompt/题库/bench / 推翻 CF Workers + 邮件链路
-  - 北极星:**MVP 验证 — 能上线 + 至少 3 个真实用户走完测评**
-- 迁移 v2 可复用资产 912K 到 `baseline_from_v2/`(prompts / questions / industry / bench / samples)
-- 装 super-dev 接入面到 v3 项目级
-- **走完 super-dev [1-4/9] 阶段**:research → docs(三文档)→ docs_confirm 门通过 → spec(23 张任务卡)
-- 4 个开放问题全部拍板:
-  - GitHub repo:**单建 stoneyang0213/career-compass-v3**
-  - brand 主色:**罗盘蓝 #2D5F8B**
-  - hero 文案:**"你的 AI 时代职业罗盘"**(产品名锚定型)
-  - 章 5 dimensions:**3 题全保留**(择己所爱/所长/所利,字数下限 50/题)
-- 修正 spec 微观决策(我曾凭推断说"Tailwind v3 / React 18",改读 v2 真实 package.json 后改为 **React 19.2.5 / Tailwind v4.2.4** 完全沿用 v2 跑通版本)
-- T01 GitHub repo 创建:`gh repo create` → https://github.com/stoneyang0213/career-compass-v3
-- T02 本地 git init + push:**敏感数据审计**——发现 `bench_results/stoneyang_v2_real/` 和 `kelly_real_assessment/` 含 PII,从 commit 移除 + `.gitignore` 永久挡远端,**本地保留**;samples 待 stoneyang 看完决定
-- T03 Astro scaffold:`package.json` + npm install 439 包 / 3min + `astro.config.mjs` + `tsconfig.json` + `globals.css`(罗盘蓝 design tokens)+ `BaseLayout.astro` → dev server HTTP 200
-- T04 通用组件:`Icon.astro`(inline Lucide SVG,无 lucide-react 依赖)+ `Logo.astro` + `Nav.astro` + `Button.astro` + `ProgressDots.astro` + `ValueCard.astro`,index.astro 升级为真正首页
+### 下午
+- v3 设计:**variant 工作模式 + scope 精简**
+  - 拍板 3 决策:新建空目录 / 保留 v2 prompt+题库+bench / MVP 验证型
+  - 走完 super-dev [1-4/9] research → docs → docs_confirm → spec
+  - 4 个开放问题拍完:GitHub 单建 / 罗盘蓝 / hero 产品名锚定 / 章 5 dimensions 全保留
+- T01-T04 Scaffold:GitHub repo + git init + push + Astro 6.3.7 + 通用组件
+- **敏感数据审计**:`bench_results/stoneyang_v2_real/` + `kelly_real_assessment/` 含 PII,从 commit 移除 + .gitignore 永久挡
+
+### 晚
+- T05-T08 数据迁移:`src/data/questions/*.json` + `industry_trends.json` + `src/lib/{scoring,prompt,prompt-interlude,chapters,types,store}.ts`
+- T09-T12 测评章节交互:`chapter/[n].astro` 动态路由 + `QuestionLikert.tsx`(三 framework 共用)
+- T16 `Chapter5Form.tsx`:basic + context + dimensions 三段单页表单(emoji→Lucide React)
+- T18 `/api/generate` Astro API Route:接 SiliconFlow GLM-5.1 stream,在头部注入 meta 事件(model + scores)
+- 装 `@cloudflare/workers-types` 解 `cloudflare:workers` 类型识别问题
+
+### 关键事实落地
+- **GLM-5.1 在 SiliconFlow 的真实 model id = `Pro/zai-org/GLM-5.1`**(curl /v1/models 实查)
+- **Kimi-K2.6 = `Pro/moonshotai/Kimi-K2.6`**(备选)
+- **v2 实际用 Astro API Routes(`src/pages/api/*.ts`)而非裸 CF Pages Functions**(`functions/api/`)— v3 已矫正
+- **v2 MBTI 实际是 Likert 5 分量表不是二选一** — v3 用同一个 QuestionLikert 组件处理 mbti/holland/values
 
 ### 在 docs_confirm 门被 stoneyang 抓到一次编造数字
-- 我说"章 5 dimensions 让报告 +1500 字"——bench 没对照组数据,**编造的**。已在 PRD 修正,改为定性描述。
+- 我说"章 5 dimensions +1500 字"——bench 无对照组,编造。已修正 PRD 为定性描述。
+- **memory:`feedback_code_fact_source_of_truth.md` 立规生效中**(版本号/默认值/数字必须 Read 源)
 
 ## 下次开工:从这里继续
 
-### 关键事:samples/ 4 张 PNG(stoneyang 待办)
+### 立刻可做的 3 件事(顺序 / 并行均可)
 
-`baseline_from_v2/samples/` 下 4 张 PNG 文件管理器双击点开看:
-- 如果是中性 UI 截图 → 告诉 Claude"samples 保留",Claude 从 `.gitignore` 移除 samples 那行 + `git add -f` + commit + push
-- 如果含真实测评数据 → 告诉 Claude"samples 也删",保持现状(本地留远端永挡)
+#### 1️⃣ samples/ 4 张 PNG 决策(2 分钟,stoneyang 待办)
 
-### 立刻可继续的 T05-T08(数据迁移,30 分钟)
+`baseline_from_v2/samples/` 4 张 PNG 文件管理器双击点开看:
+- 中性 UI 截图 → "samples 保留" → Claude 加回 commit
+- 含真实测评数据 → "samples 也删" → 保持现状(本地留,远端永挡)
 
-1. **T05** `cp baseline_from_v2/questions/*.json` → `src/data/questions/`(3 套量表)
-2. **T05** `cp baseline_from_v2/industry_data/industry_trends.json` → `src/data/industry_trends.json`
-3. **T06** `cp baseline_from_v2/prompts/prompt.ts + prompt-interlude.ts` → `src/lib/`,改 import 路径让它们能被 src 引用
-4. **T07** 写 `src/lib/types.ts`(Answers / Profile / Dimensions / Scores 共享类型)
-5. **T08** 写 `src/lib/scoring.ts`(holland code / mbti type / values top3 纯函数)— 从 v2 提取或重写
-6. **T08 验收**:`scoring(bench_results/kelly_real_assessment 的 input)` 应返回 `hollandCode="ARS"` + `mbtiType="INFP"`
+#### 2️⃣ T19 ReportStream + LLM fallback(预计 1 小时)
 
-### 接 T09-T12(章节页 + 报告页,2 小时)
+写 `src/components/ReportStream.tsx` React 岛屿:
+- mount 时 POST `/api/generate` 带完整 profile(从 store.load() 取)
+- 用 fetch + ReadableStream 接 SSE,逐 chunk 解析:
+  - `event:"meta"` → 设置摘要 state(用户分类 / model / scores)
+  - `data: {choices:[{delta:{content:"..."}}]}` (OpenAI 格式)→ 追加到 reportText
+  - `data: [DONE]` → 结束 stream
+- 用 `react-markdown` + `remark-gfm` 实时渲染 reportText
+- 末尾闪烁光标 `▌`
+- 完成后显示"复制全文 / 打印为 PDF"按钮
 
-- T09 章节布局 `src/pages/assess/chapter/[n].astro`
-- T10 报告页骨架 `src/pages/report.astro`
-- T11 localStorage 封装 `src/lib/store.ts`
-- T12 Likert / MBTI / Dimensions 三个 React 岛屿组件
+写 `src/pages/report.astro`:
+- 用 `<ReportStream client:load />` 替换原占位
 
-### 然后 T13-T20(LLM streaming + 集成 + 部署,3-4 小时)
+可选:`src/lib/llm.ts` fallback 逻辑(GLM-5.1 5s 无第一 token → 切 Kimi-K2.6)— **T19 第一版可以先跳过,等真跑出问题再加**。
 
-详见 `output/career-compass-v3-spec.md`。
+#### 3️⃣ T21-T23 端到端验证 + 部署(预计 1.5 小时)
+
+**T21 本地端到端**:
+```bash
+cd D:\projects\career-compass-v3
+npx wrangler pages dev . --compatibility-date=2024-09-23
+# 注:不要 npm run dev,wrangler pages dev 才会读 .dev.vars 的 secrets
+# 浏览器走 http://localhost:8788 完整测评 → /report 看 stream
+```
+
+**T22 CF Pages 部署**:
+- 浏览器 https://dash.cloudflare.com → Workers & Pages → Create application → Pages → Connect to Git
+- 选 `stoneyang0213/career-compass-v3` repo
+- Build settings: `npm run build` / output `dist`
+- Env vars(3 个,生产):
+  - `SILICONFLOW_API_KEY` = `sk-hezwc...`(从本地 .dev.vars 复制)
+  - `LLM_MODEL_PRIMARY` = `Pro/zai-org/GLM-5.1`
+  - `LLM_MODEL_FALLBACK` = `Pro/moonshotai/Kimi-K2.6`
+- Save and Deploy
+
+**T23 生产验收**:8 条 checklist(见 PRD `output/career-compass-v3-prd.md` §验收标准)
 
 ## 关键路径速查
 
 ### 项目
 - 路径:`D:\projects\career-compass-v3`
-- 当前分支:`main`,最新 commit `6dd4405 docs: v3 三文档 + spec + 4 决策落地 + super-dev 接入`
+- 当前分支:`main`,最新 commit `e0d6bf1+`(T18 落地后还没 commit)
 - GitHub:https://github.com/stoneyang0213/career-compass-v3
 - 还没建 CF Pages 项目(T22 时建)
 
 ### 启动命令
 ```bash
 cd D:\projects\career-compass-v3
-npm run dev      # 浏览器开 http://localhost:4321/
+npm run dev               # 浏览器开 http://localhost:4321/   (静态部分能看,但 /api/generate 不会读 .dev.vars)
+npx wrangler pages dev .  # 推荐,完整 CF Pages 模拟,读 .dev.vars,http://localhost:8788
+npm run build             # 生产构建,生成 dist/
 ```
 
-### 锁定的技术栈版本(全部沿用 v2)
+### 锁定的版本(全部沿用 v2 已验证)
 - Node 22.22.1 / npm 11.9.0
-- Astro 6.3.7(spec 锁 `^6.1.10`,实际 npm 装到了 6.3.7,minor 兼容)
-- React 19.2.5
-- Tailwind 4.2.4(via `@tailwindcss/vite`)
-- @astrojs/cloudflare 13.2.2
-- wrangler 4.86.0
-- lucide-react 0.469+(目前用 Astro inline SVG,React 岛屿要用时再 import)
-- react-markdown 9.0.1 + remark-gfm 4.0.0
+- Astro 6.3.7
+- React 19.2.5 + Tailwind v4.2.4
+- @astrojs/cloudflare 13.2.2 + wrangler 4.86+
+- @cloudflare/workers-types 4.20260524.1(新装)
+- lucide-react 0.469+ + react-markdown 9.0.1 + remark-gfm 4.0.0
 
 ### 锁定的产品决策
 - GitHub:单建 repo
 - brand:罗盘蓝 #2D5F8B + 赭石 #C97A4A(accent)
 - hero:"你的 AI 时代职业罗盘"
 - 章 5:dimensions 3 题全保留(Heart/Dumbbell/Wallet icon)
-- LLM:GLM-5.1 主 / Kimi-K2.6 备(via SiliconFlow,bench parseOk ✅)
-- 部署:CF Pages + Pages Functions streaming(不要 Workers / Workflows / D1)
-- 状态:localStorage only(MVP 完全无服务端持久化)
+- LLM:**SiliconFlow `Pro/zai-org/GLM-5.1` 主 / `Pro/moonshotai/Kimi-K2.6` 备**
+- 部署:CF Pages auto-deploy(git push 触发,不走 wrangler login)
+- 状态:localStorage only
 
-### 已配凭据 / 待配凭据
-- 本地待配(T18 跑 LLM stream 时):`.dev.vars` 含 `SILICONFLOW_API_KEY=sk-hezwc...`(从 v2 .dev.vars 复制)
-- 生产待配(T22 deploy 时):CF Pages dashboard 配 3 个 env vars
-  - `SILICONFLOW_API_KEY`
-  - `LLM_MODEL_PRIMARY=<SiliconFlow GLM-5.1 model id,T18 开工前 curl /v1/models 实查>`
-  - `LLM_MODEL_FALLBACK=Pro/moonshotai/Kimi-K2.6`
+### 已配凭据
+- 本地 `.dev.vars` 含 SILICONFLOW_API_KEY + LLM_MODEL_PRIMARY + LLM_MODEL_FALLBACK(挡在 .gitignore)
+- 生产:待 T22 在 CF Pages dashboard 配同样 3 个 env vars
 
 ## 不要重复踩的坑
 
-- **Windows + 系统代理下 curl localhost = 502** → 加 `--noproxy '*'` flag,浏览器访问不受影响
-- **wrangler login OAuth + Windows 系统代理 = callback timeout** → 用 Custom API Token 路径,**v3 走 GitHub push auto-deploy 完全绕开 wrangler login**
-- **tsconfig "**/*" 把 baseline_from_v2 拉进 tsc 编译** → 已 exclude;后续 T06 把 prompt.ts 搬到 src/lib/ 时记得 import 路径要从相对路径改对
-- **首次启动 Astro dev server 30s+**(Vite optimize deps)→ 第二次启动 4s 内,正常
-- **GLM Coding Plan 拒绝海外 IP** → v3 走 SiliconFlow,不直连智谱
-- **基础事实必须 Read source-of-truth** → 我曾凭"v2 用 React 18"的推断写 spec,实际 v2 是 React 19。memory `feedback_code_fact_source_of_truth.md` 已立规
-- **不要编造 bench 数字** → 我曾说"dimensions +1500 字"但 bench 无对照组,已修正为定性描述
+- **Windows + 系统代理下 curl localhost = 502** → 加 `--noproxy '*'` 或绕过命令行直接浏览器测
+- **wrangler login OAuth + Windows 系统代理 = callback timeout** → v3 走 git push auto-deploy 完全绕开
+- **tsconfig "**/*" 把 baseline_from_v2 拉进 tsc 编译** → 已 exclude
+- **首次启动 Astro dev server 30s+**(Vite optimize deps)→ 第二次启动 4s 内
+- **`cloudflare:workers` 模块 ts 找不到** → 已装 @cloudflare/workers-types + tsconfig types 加上
+- **基础事实必须 Read source-of-truth** → version 号、SiliconFlow model id 都 curl 实查过(`Pro/zai-org/GLM-5.1`)
+- **不要编造 bench 数字** — "+1500 字"是编造的,已修正 PRD
+- **v2 是 Astro API Routes 不是裸 CF Functions** → v3 已矫正为 `src/pages/api/`
 
 ## 一行启动
 
-下次会话开始,在 Claude Code 项目目录里直接说一句:
+下次会话:
 
 ```
 /super-dev 继续当前流程
 ```
 
-或者更明确:
+或:
 
 ```
-继续 v3,从 T05 数据迁移起步;samples 我看完了:[保留 / 也删]
+继续 v3,从 T19 ReportStream 起步;samples [保留/也删];首页/章节页 [OK/这里要改]
 ```
-
-Claude 读这份 bootstrap + `output/career-compass-v3-spec.md` 即可立刻接上,无需重新解释。
