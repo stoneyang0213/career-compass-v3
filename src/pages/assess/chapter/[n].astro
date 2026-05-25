@@ -30,7 +30,6 @@ const questions = chapter.frameworks.includes("form")
 
 const prevChapter = chapterId > 1 ? chapterId - 1 : null;
 const nextChapter = chapterId < 5 ? chapterId + 1 : null;
-const isLastChapter = chapterId === 5;
 ---
 
 <BaseLayout title={`第 ${chapterId} 章 · ${chapter.title} · Career Compass`}>
@@ -73,7 +72,7 @@ const isLastChapter = chapterId === 5;
       )}
     </div>
 
-    {/* === 章节底部:上一章 / 下一章 === */}
+    {/* === 章节底部:上一章 / 下一章 (章 5 不显示右侧按钮,提交走表单内"生成报告"按钮) === */}
     <nav class="flex items-center justify-between gap-4">
       {prevChapter ? (
         <Button href={`/assess/chapter/${prevChapter}`} variant="ghost" size="md">
@@ -87,14 +86,9 @@ const isLastChapter = chapterId === 5;
         </Button>
       )}
 
-      {nextChapter ? (
+      {nextChapter && (
         <Button href={`/assess/chapter/${nextChapter}`} size="md">
           下一章
-          <Icon name="arrow-right" size={18} />
-        </Button>
-      ) : (
-        <Button href="/report" size="md">
-          {isLastChapter ? "完成测评" : "下一章"}
           <Icon name="arrow-right" size={18} />
         </Button>
       )}

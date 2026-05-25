@@ -17,8 +17,28 @@
 import { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Copy, Printer, RotateCcw, AlertCircle, Sparkles } from "lucide-react";
+import { Copy, Printer, RotateCcw, AlertCircle, Sparkles, Check } from "lucide-react";
 import { store } from "../lib/store";
+
+/**
+ * v3.2 阶段性进度。基于 streaming 中 reportText 实时长度判断当前阶段。
+ * 阈值粗略对齐 prompt 的 11 段累计长度(总 7500-9000 字)。
+ */
+const REPORT_STAGES = [
+  { name: "提取你的画像", desc: "整合 Holland · MBTI · 舒伯三套测评", minLen: 0 },
+  { name: "对照行业数据", desc: "从公开权威报告事实库取证", minLen: 1500 },
+  { name: "推荐职业路径", desc: "爱 · 长 · 需 · 利 四维论证 3 条路径", minLen: 3500 },
+  { name: "深度剖析首选", desc: "职业轨迹 + 挑战 + 机会 + 试水步骤", minLen: 5500 },
+  { name: "完成行动计划", desc: "30 天 / 90 天 / 1 年三梯度落地", minLen: 7000 }
+];
+
+function getStageIndex(textLen: number, isDone: boolean): number {
+  if (isDone) return REPORT_STAGES.length;
+  for (let i = REPORT_STAGES.length - 1; i >= 0; i--) {
+    if (textLen >= REPORT_STAGES[i].minLen) return i;
+  }
+  return 0;
+}
 
 type Status = "idle" | "connecting" | "streaming" | "done" | "error";
 
@@ -31,6 +51,13 @@ interface MetaInfo {
   };
 }
 
+interface SaveResult {
+  ok: boolean;
+  id?: string;
+  emailStatus?: { sent: boolean; error?: string };
+  toEmail?: string;
+}
+
 export default function ReportStream() {
   const [status, setStatus] = useState<Status>("idle");
   const [meta, setMeta] = useState<MetaInfo | null>(null);
@@ -38,6 +65,7 @@ export default function ReportStream() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [finishedAt, setFinishedAt] = useState<number | null>(null);
+  const [saveResult, setSaveResult] = useState<SaveResult | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const startedRef = useRef(false); // 防 StrictMode 双跑
 
@@ -96,6 +124,7 @@ export default function ReportStream() {
     const decoder = new TextDecoder("utf-8");
     let buffer = "";
     let accumulated = "";
+    let localMeta: MetaInfo | null = null;
 
     while (true) {
       let result: ReadableStreamReadResult<Uint8Array>;
@@ -131,7 +160,8 @@ export default function ReportStream() {
 
           // 1. v3 自家注入的 meta 事件
           if (json.event === "meta") {
-            setMeta({ model: json.model, scores: json.scores });
+            localMeta = { model: json.model, scores: json.scores };
+            setMeta(localMeta);
             continue;
           }
           if (json.event === "error") {
@@ -153,7 +183,41 @@ export default function ReportStream() {
     }
 
     setStatus("done");
-    setFinishedAt(Date.now());
+    const finishedTs = Date.now();
+    setFinishedAt(finishedTs);
+
+    // v3.2 · stream 完成后 fire-and-forget 写 D1(失败不影响用户看报告)
+    if (localMeta && accumulated.length > 500 && profile.consent) {
+      const durationMs = startedAt ? finishedTs - startedAt : 0;
+      try {
+        const saveRes = await fetch("/api/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            profile,
+            reportText: accumulated,
+            durationMs,
+            model: localMeta.model,
+            computed: {
+              mbtiType: localMeta.scores.mbtiType,
+              hollandCode: localMeta.scores.hollandCode,
+              valuesTop3: localMeta.scores.valuesTop3
+            }
+          })
+        });
+        if (saveRes.ok) {
+          const body = (await saveRes.json()) as SaveResult;
+          setSaveResult({ ...body, toEmail: profile.email });
+        } else {
+          const errText = await saveRes.text().catch(() => "(no body)");
+          console.warn("[ReportStream] /api/save 写入失败(不影响阅读):", saveRes.status, errText.slice(0, 200));
+        }
+      } catch (err) {
+        console.warn("[ReportStream] /api/save 网络错误(不影响阅读):", err);
+      }
+    } else if (!profile.consent) {
+      console.info("[ReportStream] 用户未勾选 consent,跳过 /api/save");
+    }
   }
 
   function handleCopy() {
@@ -227,24 +291,97 @@ export default function ReportStream() {
         </div>
       )}
 
-      {/* === Connecting / streaming-but-no-content === */}
-      {(status === "connecting" || (status === "streaming" && reportText.length === 0)) && (
+      {/* === 阶段性进度条 (streaming 全程显示,done 后隐藏) === */}
+      {(status === "connecting" || status === "streaming") && (
         <div
-          className="rounded-xl p-6 text-center"
+          className="rounded-xl p-5 md:p-6"
           style={{ background: "var(--color-surface-warm)" }}
         >
-          <div className="flex justify-center gap-1 mb-3" aria-label="加载中">
-            <span className="loading-dot" />
-            <span className="loading-dot" style={{ animationDelay: "0.2s" }} />
-            <span className="loading-dot" style={{ animationDelay: "0.4s" }} />
-          </div>
-          <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
-            正在为你生成深度报告,大约需要 4-5 分钟。
-            <br />
-            <span style={{ color: "var(--color-text-muted)" }}>
-              期间可以离开页面再回来,但**不要关闭浏览器**,否则需重新提交答案。
-            </span>
-          </p>
+          {(() => {
+            const stageIdx = getStageIndex(reportText.length, false);
+            return (
+              <>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>
+                    正在为你生成深度报告
+                  </p>
+                  <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                    {reportText.length > 0 ? `已生成 ${reportText.length} 字` : "约 4-5 分钟"}
+                  </p>
+                </div>
+
+                {/* 5 步阶段条 */}
+                <div className="grid grid-cols-5 gap-1 mb-3">
+                  {REPORT_STAGES.map((_, i) => {
+                    const isDone = i < stageIdx;
+                    const isCurrent = i === stageIdx;
+                    return (
+                      <div
+                        key={i}
+                        className="h-1.5 rounded-full transition-all duration-500"
+                        style={{
+                          background: isDone
+                            ? "var(--color-brand)"
+                            : isCurrent
+                            ? "var(--color-brand-muted)"
+                            : "var(--color-border)",
+                          animation: isCurrent ? "stageStreaming 1.6s ease-in-out infinite" : "none"
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* 5 步阶段名 */}
+                <div className="grid grid-cols-5 gap-1">
+                  {REPORT_STAGES.map((s, i) => {
+                    const isDone = i < stageIdx;
+                    const isCurrent = i === stageIdx;
+                    return (
+                      <div key={i} className="text-center">
+                        <div className="flex justify-center mb-1">
+                          {isDone ? (
+                            <Check
+                              size={14}
+                              style={{ color: "var(--color-brand)", strokeWidth: 3 }}
+                            />
+                          ) : (
+                            <span
+                              className="inline-block w-2.5 h-2.5 rounded-full"
+                              style={{
+                                background: isCurrent ? "var(--color-brand)" : "var(--color-border)",
+                                animation: isCurrent ? "stageDotPulse 1.2s ease-in-out infinite" : "none"
+                              }}
+                            />
+                          )}
+                        </div>
+                        <p
+                          className="text-xs font-medium leading-tight"
+                          style={{
+                            color: isDone
+                              ? "var(--color-brand)"
+                              : isCurrent
+                              ? "var(--color-text-primary)"
+                              : "var(--color-text-muted)"
+                          }}
+                        >
+                          {s.name}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 当前阶段描述 */}
+                <p
+                  className="text-xs mt-4 text-center leading-relaxed"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  {REPORT_STAGES[stageIdx]?.desc ?? "完成精修..."} · 期间可以离开页面再回来,但不要关闭浏览器。
+                </p>
+              </>
+            );
+          })()}
         </div>
       )}
 
@@ -276,6 +413,36 @@ export default function ReportStream() {
             />
           )}
         </article>
+      )}
+
+      {/* === 完成后邮件状态 banner === */}
+      {status === "done" && saveResult?.emailStatus?.sent && saveResult.toEmail && (
+        <div
+          className="rounded-lg p-4 flex items-start gap-3"
+          style={{ background: "rgba(45, 125, 95, 0.08)", border: "1px solid var(--color-success)" }}
+        >
+          <Check size={20} style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px", strokeWidth: 3 }} />
+          <div className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
+            <strong>报告备份已发到 {saveResult.toEmail}</strong>
+            <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
+              发件人 hi@mail.stoneyang.top · 检查垃圾邮件夹找不到时,刷新一下首页或私信我们。
+            </p>
+          </div>
+        </div>
+      )}
+      {status === "done" && saveResult?.emailStatus && !saveResult.emailStatus.sent && saveResult.toEmail && (
+        <div
+          className="rounded-lg p-4 flex items-start gap-3"
+          style={{ background: "rgba(201, 122, 74, 0.08)", border: "1px solid var(--color-accent)" }}
+        >
+          <AlertCircle size={20} style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }} />
+          <div className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
+            <strong>邮件发送暂时失败</strong>
+            <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
+              报告已保存,你可以现场复制全文或打印 PDF;邮件发送问题已记录,后续会人工跟进。
+            </p>
+          </div>
+        </div>
       )}
 
       {/* === 完成后底部按钮 === */}
@@ -341,6 +508,16 @@ export default function ReportStream() {
         @keyframes cursorBlink {
           0%, 50% { opacity: 1; }
           51%, 100% { opacity: 0; }
+        }
+
+        /* === v3.2 阶段性进度条动画 === */
+        @keyframes stageStreaming {
+          0%, 100% { opacity: 0.6; }
+          50%      { opacity: 1; }
+        }
+        @keyframes stageDotPulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50%      { transform: scale(1.35); opacity: 0.7; }
         }
 
         /* === v3.1 报告样式:三版块视觉强分隔 === */

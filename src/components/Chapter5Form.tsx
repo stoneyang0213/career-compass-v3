@@ -9,21 +9,23 @@
 // ============================================================
 
 import { useEffect, useState } from "react";
-import { Heart, Dumbbell, Wallet } from "lucide-react";
+import { Heart, Dumbbell, Wallet, GraduationCap, Briefcase } from "lucide-react";
 import { store } from "../lib/store";
 import type {
   BasicInfo, Context, Dimensions,
-  EducationLevel, CareerStage, TargetLocation
+  EducationLevel, CareerStage, TargetLocation, IdentityRole
 } from "../lib/types";
 
 const GENDER_OPTIONS: BasicInfo["gender"][] = ["男", "女", "其他"];
-const EDUCATION_LEVELS: EducationLevel[] = [
-  "高中在读", "高中毕业", "大学在读", "大学毕业",
-  "硕士在读", "硕士毕业", "博士在读", "博士毕业"
+const EDUCATION_LEVELS_STUDENT: EducationLevel[] = [
+  "高中在读", "大学在读", "硕士在读", "博士在读"
 ];
-const CAREER_STAGES: CareerStage[] = [
-  "在校探索", "应届求职", "在职稳定", "考虑转型",
-  "主动创业", "自由职业", "待业", "退休返聘"
+const EDUCATION_LEVELS_PRO: EducationLevel[] = [
+  "高中毕业", "大学毕业", "硕士毕业", "博士毕业"
+];
+const CAREER_STAGES_STUDENT: CareerStage[] = ["在校探索", "应届求职"];
+const CAREER_STAGES_PRO: CareerStage[] = [
+  "在职稳定", "考虑转型", "主动创业", "自由职业", "待业", "退休返聘"
 ];
 const TARGET_LOCATIONS: TargetLocation[] = [
   "一线（北上广深）", "新一线（杭州/成都/武汉等）",
@@ -35,6 +37,8 @@ export default function Chapter5Form() {
   const [basic, setBasic] = useState<Partial<BasicInfo>>({});
   const [ctx, setCtx] = useState<Context>({});
   const [dim, setDim] = useState<Partial<Dimensions>>({});
+  const [email, setEmail] = useState<string>("");
+  const [consent, setConsent] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   // hydrate from localStorage
@@ -43,6 +47,8 @@ export default function Chapter5Form() {
     if (p?.basic) setBasic(p.basic);
     if (p?.context) setCtx(p.context);
     if (p?.dimensions) setDim(p.dimensions);
+    if (p?.email) setEmail(p.email);
+    if (p?.consent) setConsent(p.consent);
   }, []);
 
   const dimChars = {
@@ -55,10 +61,14 @@ export default function Chapter5Form() {
     dimChars.strength >= MIN_CHARS &&
     dimChars.value >= MIN_CHARS;
 
+  const identity: IdentityRole = ctx.identityRole ?? "professional";
+  const isStudent = identity === "student";
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
+    if (!ctx.identityRole) return setError("请选择你目前的身份(学生 / 职场)");
     if (!basic.name?.trim()) return setError("请填写姓名");
     const age = Number(basic.age);
     if (!age || age < 12 || age > 80) return setError("请填写 12-80 之间的年龄");
@@ -72,6 +82,13 @@ export default function Chapter5Form() {
       return setError(`三段自述每段需 ≥ ${MIN_CHARS} 字,还差:${missing}`);
     }
 
+    if (!consent) return setError("请勾选'我同意匿名用于产品改进',这是生成报告的前提");
+
+    const trimmedEmail = email.trim();
+    if (trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      return setError("邮箱格式不对(可以留空)");
+    }
+
     const finalBasic: BasicInfo = { name: basic.name.trim(), age, gender: basic.gender };
     const finalDim: Dimensions = {
       passion: dim.passion!.trim(),
@@ -82,7 +99,14 @@ export default function Chapter5Form() {
     store.completeModule("context", "context", ctx);
     store.completeModule("dimensions", "dimensions", finalDim);
 
-    // 跳报告页
+    // v3.2 新增:把 email + consent 写入 store
+    const p = store.load();
+    if (p) {
+      p.email = trimmedEmail || undefined;
+      p.consent = true;
+      store.save(p);
+    }
+
     window.location.href = "/report";
   }
 
@@ -91,6 +115,26 @@ export default function Chapter5Form() {
       <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
         这是最后一章。请尽量具体 — 三段自述是 AI 写出深度报告的关键,比前面所有量表加起来都重要。
       </p>
+
+      {/* === 身份选择 (v3.2 新增) === */}
+      <Section title="你目前的身份" required>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <IdentityCard
+            icon={<GraduationCap size={22} />}
+            label="学生"
+            subtitle="高中 / 大学 / 研究生在读"
+            selected={ctx.identityRole === "student"}
+            onClick={() => setCtx({ ...ctx, identityRole: "student", careerStage: undefined })}
+          />
+          <IdentityCard
+            icon={<Briefcase size={22} />}
+            label="职场"
+            subtitle="在职 / 求职 / 转型 / 创业"
+            selected={ctx.identityRole === "professional"}
+            onClick={() => setCtx({ ...ctx, identityRole: "professional", careerStage: undefined })}
+          />
+        </div>
+      </Section>
 
       {/* === 基本信息 === */}
       <Section title="基本信息" required>
@@ -127,72 +171,87 @@ export default function Chapter5Form() {
             <Select
               value={ctx.educationLevel ?? ""}
               onChange={(v) => setCtx({ ...ctx, educationLevel: (v || undefined) as EducationLevel })}
-              options={EDUCATION_LEVELS}
+              options={isStudent ? EDUCATION_LEVELS_STUDENT : EDUCATION_LEVELS_PRO}
             />
           </Field>
-          <Field label="毕业年份" hint="预计或实际,如 2027">
-            <Input
-              type="number"
-              value={ctx.graduationYear ?? ""}
-              onChange={(v) => setCtx({ ...ctx, graduationYear: v ? Number(v) : undefined })}
-              placeholder="2027"
-            />
-          </Field>
+          {isStudent ? (
+            <Field label="年级" hint="例如:高三 / 大二 / 研一">
+              <Input
+                value={ctx.grade ?? ""}
+                onChange={(v) => setCtx({ ...ctx, grade: v || undefined })}
+                placeholder="高三 / 大二 / 研一..."
+              />
+            </Field>
+          ) : (
+            <Field label="毕业年份" hint="预计或实际,如 2027">
+              <Input
+                type="number"
+                value={ctx.graduationYear ?? ""}
+                onChange={(v) => setCtx({ ...ctx, graduationYear: v ? Number(v) : undefined })}
+                placeholder="2027"
+              />
+            </Field>
+          )}
         </Row>
-        <Field label="学校" hint="含层级,如:浙江大学(985)">
+        <Field label="学校" hint={isStudent ? "学校名" : "含层级,如:浙江大学(985)"}>
           <Input
             value={ctx.school ?? ""}
             onChange={(v) => setCtx({ ...ctx, school: v || undefined })}
-            placeholder="学校名 + 层级"
+            placeholder={isStudent ? "在读学校" : "学校名 + 层级"}
           />
         </Field>
-        <Field label="专业" hint="含双学位/辅修">
+        <Field
+          label={isStudent ? "专业 / 文理科" : "专业"}
+          hint={isStudent ? "未定专业的高中生可填:理科 / 文科 / 未定" : "含双学位/辅修"}
+        >
           <Input
             value={ctx.major ?? ""}
             onChange={(v) => setCtx({ ...ctx, major: v || undefined })}
-            placeholder="专业方向"
+            placeholder={isStudent ? "理科 / 文科 / 计算机..." : "专业方向"}
           />
         </Field>
       </Section>
 
-      {/* === 工作 === */}
-      <Section title="工作">
-        <Row>
-          <Field label="工作年限" hint="应届填 0">
+      {/* === 工作 (仅职场显示) === */}
+      {!isStudent && (
+        <Section title="工作">
+          <Row>
+            <Field label="工作年限" hint="应届填 0">
+              <Input
+                type="number"
+                value={ctx.workYears ?? ""}
+                onChange={(v) => setCtx({ ...ctx, workYears: v ? Number(v) : undefined })}
+                placeholder="0"
+              />
+            </Field>
+            <Field label="当前行业">
+              <Input
+                value={ctx.currentIndustry ?? ""}
+                onChange={(v) => setCtx({ ...ctx, currentIndustry: v || undefined })}
+                placeholder="互联网 / 教育..."
+              />
+            </Field>
+          </Row>
+          <Field label="当前角色">
             <Input
-              type="number"
-              value={ctx.workYears ?? ""}
-              onChange={(v) => setCtx({ ...ctx, workYears: v ? Number(v) : undefined })}
-              placeholder="0"
+              value={ctx.currentRole ?? ""}
+              onChange={(v) => setCtx({ ...ctx, currentRole: v || undefined })}
+              placeholder="产品经理 / 设计师..."
             />
           </Field>
-          <Field label="当前行业">
-            <Input
-              value={ctx.currentIndustry ?? ""}
-              onChange={(v) => setCtx({ ...ctx, currentIndustry: v || undefined })}
-              placeholder="互联网 / 教育..."
-            />
-          </Field>
-        </Row>
-        <Field label="当前角色">
-          <Input
-            value={ctx.currentRole ?? ""}
-            onChange={(v) => setCtx({ ...ctx, currentRole: v || undefined })}
-            placeholder="产品经理 / 大三学生..."
-          />
-        </Field>
-      </Section>
+        </Section>
+      )}
 
-      {/* === 意向 === */}
+      {/* === 意向与定位 === */}
       <Section title="意向与定位" required>
-        <Field label="当前职业阶段" required>
+        <Field label="当前阶段" required>
           <Pills
             value={ctx.careerStage}
             onChange={(v) => setCtx({ ...ctx, careerStage: v as CareerStage })}
-            options={CAREER_STAGES}
+            options={isStudent ? CAREER_STAGES_STUDENT : CAREER_STAGES_PRO}
           />
         </Field>
-        <Field label="目标工作地">
+        <Field label={isStudent ? "目标地域(求职 / 读研)" : "目标工作地"}>
           <Pills
             value={ctx.targetLocation}
             onChange={(v) => setCtx({ ...ctx, targetLocation: v as TargetLocation })}
@@ -201,41 +260,63 @@ export default function Chapter5Form() {
         </Field>
       </Section>
 
-      {/* === 期待与约束(可选) === */}
-      <Section title="期待与约束(可选)">
-        <Row>
-          <Field label="可接受最低年薪(万元)">
-            <Input
-              type="number"
-              value={ctx.incomeFloor ?? ""}
-              onChange={(v) => setCtx({ ...ctx, incomeFloor: v ? Number(v) : undefined })}
-              placeholder="15"
+      {/* === 期待与约束 (学生 = 困惑点;职场 = 收入 + 约束) === */}
+      {isStudent ? (
+        <Section title="目前最纠结什么(可选)">
+          <Field
+            label="一句话说说现在最大的困惑"
+            hint="例如:不知道是选交叉学科还是传统理工 / 想知道兴趣能不能当饭吃 / 高考分数刚过线...写一两句即可"
+          >
+            <textarea
+              value={ctx.constraints ?? ""}
+              onChange={(e) => setCtx({ ...ctx, constraints: e.target.value || undefined })}
+              placeholder="最近最纠结的事..."
+              rows={3}
+              className="w-full px-3 py-2.5 rounded-md text-base resize-none focus:outline-none"
+              style={{
+                background: "var(--color-surface-warm)",
+                border: "1.5px solid var(--color-border)",
+                color: "var(--color-text-primary)"
+              }}
             />
           </Field>
-          <Field label="理想年薪(万元)">
-            <Input
-              type="number"
-              value={ctx.incomeTarget ?? ""}
-              onChange={(v) => setCtx({ ...ctx, incomeTarget: v ? Number(v) : undefined })}
-              placeholder="50"
+        </Section>
+      ) : (
+        <Section title="期待与约束(可选)">
+          <Row>
+            <Field label="可接受最低年薪(万元)">
+              <Input
+                type="number"
+                value={ctx.incomeFloor ?? ""}
+                onChange={(v) => setCtx({ ...ctx, incomeFloor: v ? Number(v) : undefined })}
+                placeholder="15"
+              />
+            </Field>
+            <Field label="理想年薪(万元)">
+              <Input
+                type="number"
+                value={ctx.incomeTarget ?? ""}
+                onChange={(v) => setCtx({ ...ctx, incomeTarget: v ? Number(v) : undefined })}
+                placeholder="50"
+              />
+            </Field>
+          </Row>
+          <Field label="其他约束" hint="家庭 / 健康 / 时间 / 签证身份">
+            <textarea
+              value={ctx.constraints ?? ""}
+              onChange={(e) => setCtx({ ...ctx, constraints: e.target.value || undefined })}
+              placeholder="如:H1B 抽签限制;家有老人需照顾..."
+              rows={2}
+              className="w-full px-3 py-2.5 rounded-md text-base resize-none focus:outline-none"
+              style={{
+                background: "var(--color-surface-warm)",
+                border: "1.5px solid var(--color-border)",
+                color: "var(--color-text-primary)"
+              }}
             />
           </Field>
-        </Row>
-        <Field label="其他约束" hint="家庭 / 健康 / 时间 / 签证身份">
-          <textarea
-            value={ctx.constraints ?? ""}
-            onChange={(e) => setCtx({ ...ctx, constraints: e.target.value || undefined })}
-            placeholder="如:H1B 抽签限制;家有老人需照顾..."
-            rows={2}
-            className="w-full px-3 py-2.5 rounded-md text-base resize-none focus:outline-none"
-            style={{
-              background: "var(--color-surface-warm)",
-              border: "1.5px solid var(--color-border)",
-              color: "var(--color-text-primary)"
-            }}
-          />
-        </Field>
-      </Section>
+        </Section>
+      )}
 
       {/* === 三段自述 (必填) === */}
       <Section title={`三段自述(每段 ≥ ${MIN_CHARS} 字)`} required>
@@ -265,6 +346,41 @@ export default function Chapter5Form() {
         />
       </Section>
 
+      {/* === 邮箱 + 同意 === */}
+      <Section title="你的邮箱" required>
+        <Field
+          label=""
+          hint="可选。报告可以备份到你的邮箱,后期我们会基于你的反馈持续优化。"
+        >
+          <Input
+            type="email"
+            value={email}
+            onChange={(v) => setEmail(v)}
+            placeholder="13510092636@139.com"
+          />
+        </Field>
+
+        <label
+          className="flex items-start gap-3 cursor-pointer p-3 rounded-md transition"
+          style={{
+            background: consent ? "var(--color-brand-light)" : "var(--color-surface-warm)",
+            border: `1.5px solid ${consent ? "var(--color-brand)" : "var(--color-border)"}`
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="mt-0.5 shrink-0"
+            style={{ width: 18, height: 18, accentColor: "var(--color-brand)" }}
+          />
+          <span className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
+            把报告备份到我邮箱,并接收 Career Compass 的产品改进通知。
+            <span style={{ color: "var(--color-error)" }}> *</span>
+          </span>
+        </label>
+      </Section>
+
       {error && (
         <p className="text-sm font-medium" style={{ color: "var(--color-error)" }}>
           {error}
@@ -274,10 +390,15 @@ export default function Chapter5Form() {
       <div className="pt-6" style={{ borderTop: "1px solid var(--color-border-light)" }}>
         <button
           type="submit"
-          className="px-8 py-3 text-base font-semibold rounded-md transition-opacity hover:opacity-90 cursor-pointer"
-          style={{ background: "var(--color-brand)", color: "white" }}
+          disabled={!consent}
+          className="px-8 py-3 text-base font-semibold rounded-md transition-opacity hover:opacity-90 cursor-pointer disabled:cursor-not-allowed"
+          style={{
+            background: consent ? "var(--color-brand)" : "var(--color-text-muted)",
+            color: "white",
+            opacity: consent ? 1 : 0.5
+          }}
         >
-          完成测评 →
+          生成报告 →
         </button>
       </div>
     </form>
@@ -430,6 +551,47 @@ function Pills<T extends string>({
         );
       })}
     </div>
+  );
+}
+
+function IdentityCard({
+  icon,
+  label,
+  subtitle,
+  selected,
+  onClick
+}: {
+  icon: React.ReactNode;
+  label: string;
+  subtitle: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="text-left px-5 py-4 rounded-lg transition-all cursor-pointer hover:-translate-y-0.5"
+      style={{
+        background: selected ? "var(--color-brand-light)" : "var(--color-surface-warm)",
+        border: `1.5px solid ${selected ? "var(--color-brand)" : "transparent"}`,
+        color: "var(--color-text-primary)"
+      }}
+    >
+      <div className="flex items-center gap-3">
+        <span style={{ color: selected ? "var(--color-brand)" : "var(--color-text-muted)" }}>
+          {icon}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="font-semibold text-base" style={{ color: selected ? "var(--color-brand)" : "var(--color-text-primary)" }}>
+            {label}
+          </div>
+          <div className="text-xs mt-0.5" style={{ color: "var(--color-text-muted)" }}>
+            {subtitle}
+          </div>
+        </div>
+      </div>
+    </button>
   );
 }
 

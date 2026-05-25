@@ -138,21 +138,196 @@ import Icon from "../components/Icon.astro";
       </div>
     </section>
 
-    {/* === 工具信息 === */}
-    <section class="px-6 pb-20">
-      <div
-        class="max-w-3xl mx-auto rounded-xl p-6 text-sm leading-relaxed"
-        style="background: var(--color-surface-warm); color: var(--color-text-secondary);"
-      >
-        <p class="mb-2">
-          <strong style="color: var(--color-text-primary);">测评工具</strong>:Holland 霍兰德兴趣量表 · MBTI 性格类型 · Super 舒伯职业价值观
+    {/* === 四圆职业模型 Venn (尺寸缩小,确保一屏看全) === */}
+    <section class="px-6 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <h2
+          class="text-center text-sm font-semibold uppercase tracking-widest mb-3"
+          style="color: var(--color-text-muted); letter-spacing: 0.15em;"
+        >
+          四圆职业模型
+        </h2>
+        <p
+          class="text-center text-base md:text-lg mb-8 max-w-2xl mx-auto leading-relaxed"
+          style="color: var(--color-text-secondary);"
+        >
+          你的最佳职业,在 <strong style="color: var(--color-brand);">爱 · 长 · 需 · 利</strong> 四圆交汇处。
         </p>
-        <p class="mb-2">
-          <strong style="color: var(--color-text-primary);">报告模型</strong>:GLM-5.1(主)/ Kimi-K2.6(备),Cloudflare Pages 全球 Edge 部署
+
+        <div class="venn-wrap relative mx-auto" style="max-width: 360px;">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" style="overflow: visible;">
+            <circle class="venn-circle venn-c1" cx="200" cy="135" r="115" fill="#2D5F8B" fill-opacity="0.18" stroke="#2D5F8B" stroke-opacity="0.55" stroke-width="1.5" />
+            <circle class="venn-circle venn-c2" cx="135" cy="220" r="115" fill="#2D7D5F" fill-opacity="0.18" stroke="#2D7D5F" stroke-opacity="0.55" stroke-width="1.5" />
+            <circle class="venn-circle venn-c3" cx="265" cy="220" r="115" fill="#8B5CF6" fill-opacity="0.18" stroke="#8B5CF6" stroke-opacity="0.55" stroke-width="1.5" />
+            <circle class="venn-circle venn-c4" cx="200" cy="305" r="115" fill="#C97A4A" fill-opacity="0.18" stroke="#C97A4A" stroke-opacity="0.55" stroke-width="1.5" />
+
+            <circle class="venn-core" cx="200" cy="220" r="44" fill="#FCFAF5" stroke="#2D5F8B" stroke-width="2.5" />
+            <text class="venn-core-text" x="200" y="216" text-anchor="middle" dominant-baseline="middle" style="font-size: 14px; font-weight: 700; fill: #2D5F8B;">职业</text>
+            <text class="venn-core-text" x="200" y="234" text-anchor="middle" dominant-baseline="middle" style="font-size: 14px; font-weight: 700; fill: #2D5F8B;">适配区</text>
+
+            <text class="venn-label venn-l1" x="200" y="22" text-anchor="middle" style="font-size: 17px; font-weight: 600; fill: #2D5F8B;">择己所爱</text>
+            <text class="venn-label venn-l1" x="200" y="42" text-anchor="middle" style="font-size: 11px; fill: #6E8298;">兴趣 · 热情</text>
+
+            <text class="venn-label venn-l2" x="20" y="216" text-anchor="middle" style="font-size: 17px; font-weight: 600; fill: #2D7D5F;">择己所长</text>
+            <text class="venn-label venn-l2" x="20" y="236" text-anchor="middle" style="font-size: 11px; fill: #6E8298;">技能 · 优势</text>
+
+            <text class="venn-label venn-l3" x="380" y="216" text-anchor="middle" style="font-size: 17px; font-weight: 600; fill: #8B5CF6;">择世所需</text>
+            <text class="venn-label venn-l3" x="380" y="236" text-anchor="middle" style="font-size: 11px; fill: #6E8298;">行业 · 趋势</text>
+
+            <text class="venn-label venn-l4" x="200" y="392" text-anchor="middle" style="font-size: 17px; font-weight: 600; fill: #C97A4A;">择己所利</text>
+            <text class="venn-label venn-l4" x="200" y="408" text-anchor="middle" style="font-size: 11px; fill: #6E8298;">收益 · 生活</text>
+          </svg>
+        </div>
+
+        <p
+          class="text-center text-sm mt-6 max-w-2xl mx-auto leading-relaxed"
+          style="color: var(--color-text-muted);"
+        >
+          Holland 霍兰德兴趣 · MBTI 性格类型 · Super 舒伯职业价值观 — 三套量表 + 公开权威报告事实库。
         </p>
-        <p>
-          <strong style="color: var(--color-text-primary);">报告字数</strong>:7000+ 中文字,基于真实样本 bench 验证(parseOk 100%)
+      </div>
+    </section>
+
+    <style>
+      .venn-circle {
+        opacity: 0;
+        transform-origin: center;
+        animation: vennFadeIn 0.9s ease-out forwards;
+        transition: fill-opacity 0.25s ease, transform 0.3s ease;
+      }
+      .venn-c1 { animation-delay: 0.1s; }
+      .venn-c2 { animation-delay: 0.3s; }
+      .venn-c3 { animation-delay: 0.5s; }
+      .venn-c4 { animation-delay: 0.7s; }
+
+      .venn-core {
+        opacity: 0;
+        transform-origin: 200px 220px;
+        animation: vennPopIn 0.6s ease-out 1s forwards, vennPulse 4s ease-in-out 2s infinite;
+      }
+      .venn-core-text {
+        opacity: 0;
+        animation: vennFadeIn 0.5s ease-out 1.3s forwards;
+      }
+      .venn-label {
+        opacity: 0;
+        animation: vennFadeIn 0.5s ease-out 1.5s forwards;
+      }
+
+      @keyframes vennFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes vennPopIn {
+        0%   { opacity: 0; transform: scale(0.3); }
+        60%  { opacity: 1; transform: scale(1.15); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+      @keyframes vennPulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.05); }
+      }
+
+      .venn-wrap:hover .venn-circle { fill-opacity: 0.10; }
+      .venn-wrap .venn-circle:hover { fill-opacity: 0.32; }
+    </style>
+
+    {/* === 4 类典型使用场景 (化名,纯场景描述,无 quote) === */}
+    <section class="px-6 pb-24">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-center text-sm font-semibold uppercase tracking-widest mb-4"
+          style="color: var(--color-text-muted); letter-spacing: 0.15em;"
+        >
+          走过这条路的人
+        </h2>
+        <p
+          class="text-center text-base mb-12 max-w-2xl mx-auto leading-relaxed"
+          style="color: var(--color-text-secondary);"
+        >
+          下面是 4 类典型用户走完测评后的真实场景。
         </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            {
+              name: "阿乐",
+              meta: "18 岁 · 大一在读",
+              tagColor: "#2D5F8B",
+              avatarBg: "ffd5dc",
+              tagLine: "INFP · 艺术与计算机双修",
+              scene: "在感性表达和理性建造之间纠结了几个月,家里也没有说服她。",
+              conclusion: "测评没改变她的选择,给的是笃定。"
+            },
+            {
+              name: "阿宇",
+              meta: "18 岁 · 刚高考完",
+              tagColor: "#C97A4A",
+              avatarBg: "ffe5c5",
+              tagLine: "志愿填报前夜",
+              scene: "在跨学科与传统专业之间打转,问家长不算数,问老师只有标准答案。",
+              conclusion: "把模糊方向收敛成 2 个具体的志愿组合。"
+            },
+            {
+              name: "小川",
+              meta: "13 岁 · 初中在读",
+              tagColor: "#2D7D5F",
+              avatarBg: "d0f0e0",
+              tagLine: "青少年职业启蒙",
+              scene: "妈妈陪他来。他不是要现在决定做什么,只是想看看自己擅长什么。",
+              conclusion: "识别还在生长的兴趣,不锁死方向,只给参考。"
+            },
+            {
+              name: "林姐",
+              meta: "30+ · 职场转型期",
+              tagColor: "#8B5CF6",
+              avatarBg: "e7d5ff",
+              tagLine: "大厂背景 · 转型迷茫",
+              scene: "在继续往上爬和去外面试一试之间,反复横跳了一年。",
+              conclusion: "测评帮她排了优先级,而不是替她做决定。"
+            }
+          ].map((t) => (
+            <div
+              class="relative rounded-2xl px-6 pt-6 pb-6 flex flex-col transition-all duration-200 hover:-translate-y-1"
+              style={`background: var(--color-surface); box-shadow: var(--shadow-sm); border-top: 3px solid ${t.tagColor};`}
+            >
+              <div class="flex items-center gap-3 mb-4">
+                <img
+                  src={`https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(t.name)}&backgroundColor=${t.avatarBg}&radius=50`}
+                  alt={`${t.name} 头像`}
+                  width="48"
+                  height="48"
+                  class="rounded-full shrink-0"
+                  loading="lazy"
+                  style="background: #f5f2eb;"
+                />
+                <div class="min-w-0">
+                  <div class="font-bold text-base truncate" style="color: var(--color-text-primary); font-family: var(--font-display);">
+                    {t.name}
+                  </div>
+                  <div
+                    class="text-xs font-semibold mt-0.5"
+                    style={`color: ${t.tagColor};`}
+                  >
+                    {t.meta}
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs font-semibold mb-2" style={`color: ${t.tagColor}; opacity: 0.85;`}>
+                {t.tagLine}
+              </p>
+
+              <p class="text-sm leading-relaxed mb-3" style="color: var(--color-text-secondary);">
+                {t.scene}
+              </p>
+
+              <p class="text-sm leading-relaxed font-semibold" style="color: var(--color-text-primary);">
+                {t.conclusion}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   </main>

@@ -58,14 +58,25 @@ export type CareerStage =
   | "考虑转型" | "主动创业" | "自由职业"
   | "待业" | "退休返聘";
 
+/**
+ * 身份角色 — v3.2 新增。决定 Chapter5Form 表单字段集 + prompt 模板分支。
+ *   - student:学生(高中/大学/研究生在读),不问工作经历/收入,问年级/目标专业/困惑点
+ *   - professional:职场人士,问工作经历/行业/角色/收入
+ */
+export type IdentityRole = "student" | "professional";
+
 export type TargetLocation =
   | "一线（北上广深）" | "新一线（杭州/成都/武汉等）"
   | "二线" | "三四线" | "海外" | "远程" | "不限";
 
 export interface Context {
+  /** v3.2 新增:学生 vs 职场,决定后续字段集 */
+  identityRole?: IdentityRole;
   educationLevel?: EducationLevel;
   school?: string;
   major?: string;
+  /** v3.2 新增:学生年级,例如"高三""大二""研一";职场可空 */
+  grade?: string;
   graduationYear?: number;
   workYears?: number;
   currentIndustry?: string;
@@ -74,6 +85,7 @@ export interface Context {
   targetLocation?: TargetLocation;
   incomeFloor?: number;
   incomeTarget?: number;
+  /** 学生填"目前最纠结什么";职场填工作约束 */
   constraints?: string;
 }
 
@@ -100,6 +112,10 @@ export interface AssessmentProfile {
   hollandAnswers?: QuizAnswers;
   valuesAnswers?: QuizAnswers;
   dimensions?: Dimensions;
+  /** v3.2 新增:邮箱(可选,内测期 stoneyang 联系用) */
+  email?: string;
+  /** v3.2 新增:知情同意(必为 true 才能 /api/save 入库) */
+  consent?: boolean;
   completed: ModuleId[];
   chapterProgress?: ChapterProgress;
 }
