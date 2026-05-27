@@ -120,9 +120,10 @@ export const POST: APIRoute = async ({ request }) => {
         model: modelPrimary,
         messages: [{ role: "user", content: promptText }],
         stream: true,
-        // 24000 token ≈ 11000-13000 中文字,保证最后一段"行动计划"完整收尾。
-        // 16000 在 2026-05-27 实测被截断("行动计划"刚开头就 stop)。
-        max_tokens: 24000,
+        // SiliconFlow Kimi-K2.6 streaming 实测 ~12500 字封顶(2026-05-27 实验),
+        // 故 prompt 已硬约束总字数 ≤ 7500;max_tokens 12000 留 ~50% buffer
+        // 防 LLM 写超。non-stream 模式可到 22000+ 字但 UX 太差。
+        max_tokens: 12000,
         temperature: 0.7,
         // Kimi-K2.6 / GLM-5.1 等 reasoning 模型默认开 thinking,
         // 会把内容全花在 reasoning_content 字段,标准 content 几乎空。
