@@ -120,7 +120,9 @@ export const POST: APIRoute = async ({ request }) => {
         model: modelPrimary,
         messages: [{ role: "user", content: promptText }],
         stream: true,
-        max_tokens: 16000,
+        // 24000 token ≈ 11000-13000 中文字,保证最后一段"行动计划"完整收尾。
+        // 16000 在 2026-05-27 实测被截断("行动计划"刚开头就 stop)。
+        max_tokens: 24000,
         temperature: 0.7,
         // Kimi-K2.6 / GLM-5.1 等 reasoning 模型默认开 thinking,
         // 会把内容全花在 reasoning_content 字段,标准 content 几乎空。
