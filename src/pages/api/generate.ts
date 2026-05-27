@@ -121,7 +121,11 @@ export const POST: APIRoute = async ({ request }) => {
         messages: [{ role: "user", content: promptText }],
         stream: true,
         max_tokens: 16000,
-        temperature: 0.7
+        temperature: 0.7,
+        // Kimi-K2.6 / GLM-5.1 等 reasoning 模型默认开 thinking,
+        // 会把内容全花在 reasoning_content 字段,标准 content 几乎空。
+        // 短输出/流式必须显式关掉。见 memory reference_glm5_disable_thinking。
+        thinking: { type: "disabled" }
       })
     });
   } catch (err) {
