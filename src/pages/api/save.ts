@@ -25,6 +25,7 @@ interface RuntimeEnv {
 
 interface SaveRequest {
   profile: AssessmentProfile;
+  inviteCode?: string;        // v3.3 邀请码门槛(从 localStorage 带,后端再校验)
   reportText: string;
   durationMs: number;
   model: string;
@@ -51,20 +52,38 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonError(400, "invalid_json", "无法解析请求体");
   }
 
-  const { profile, reportText, durationMs, model, computed } = body;
+  const { profile, inviteCode, reportText, durationMs, model, computed } = body;
 
   // 2. 校验 consent(法律红线)
   if (!profile?.consent) {
     return jsonError(403, "no_consent", "未勾选知情同意,不能持久化");
   }
 
-  // 3. 校验 profile 完整度
+  // 3. v3.3 校验 invite_code 存在且未失效(前端 localStorage 来源,后端再 double-check)
+  const code = inviteCode?.trim();
+  if (!code || !/^\d{4}$/.test(code)) {
+    return jsonError(403, "missing_invite_code", "邀请码缺失,请回首页重新输入");
+  }
+  const codeRow = await e.DB.prepare(
+    "SELECT code, max_uses, used, expires_at FROM invite_codes WHERE code = ?"
+  )
+    .bind(code)
+    .first<{ code: string; max_uses: number; used: number; expires_at: number | null }>();
+  if (!codeRow) {
+    return jsonError(403, "invite_code_invalid", "邀请码无效");
+  }
+  if (codeRow.expires_at && codeRow.expires_at < Date.now()) {
+    return jsonError(403, "invite_code_expired", "邀请码已过期");
+  }
+  // 注:已用尽校验放过 — 用户已通过 /api/check-code 进入测评,这里只兜底防过期/被删
+
+  // 4. 校验 profile 完整度
   const validation = validateProfileForGeneration(profile);
   if (!validation.ok) {
     return jsonError(400, "profile_incomplete", `测评数据缺失:${(validation.missing ?? []).join(", ")}`);
   }
 
-  // 4. 校验 reportText 非空(防止前端 bug 写空报告)
+  // 5. 校验 reportText 非空(防止前端 bug 写空报告)
   if (!reportText || reportText.length < 500) {
     return jsonError(400, "report_too_short", `报告文本过短 (${reportText?.length ?? 0} chars),拒绝持久化`);
   }
@@ -73,7 +92,7 @@ export const POST: APIRoute = async ({ request }) => {
   const id = crypto.randomUUID();
   const now = Date.now();
 
-  // 6. INSERT
+  // 7. INSERT(v3.3 加 invite_code 列)
   try {
     await e.DB.prepare(
       `INSERT INTO assessments (
@@ -83,8 +102,9 @@ export const POST: APIRoute = async ({ request }) => {
         mbti_answers_json, holland_answers_json, values_answers_json,
         mbti_type, holland_code, values_top3_json, values_bottom3_json,
         dim_passion, dim_strength, dim_value,
-        report_text, report_model, report_chars, report_duration_ms
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        report_text, report_model, report_chars, report_duration_ms,
+        invite_code
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
       .bind(
         id,
@@ -109,7 +129,8 @@ export const POST: APIRoute = async ({ request }) => {
         reportText,
         model,
         reportText.length,
-        durationMs
+        durationMs,
+        code
       )
       .run();
   } catch (err) {

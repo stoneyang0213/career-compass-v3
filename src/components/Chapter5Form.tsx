@@ -37,7 +37,6 @@ export default function Chapter5Form() {
   const [basic, setBasic] = useState<Partial<BasicInfo>>({});
   const [ctx, setCtx] = useState<Context>({});
   const [dim, setDim] = useState<Partial<Dimensions>>({});
-  const [email, setEmail] = useState<string>("");
   const [consent, setConsent] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,7 +46,6 @@ export default function Chapter5Form() {
     if (p?.basic) setBasic(p.basic);
     if (p?.context) setCtx(p.context);
     if (p?.dimensions) setDim(p.dimensions);
-    if (p?.email) setEmail(p.email);
     if (p?.consent) setConsent(p.consent);
   }, []);
 
@@ -84,11 +82,6 @@ export default function Chapter5Form() {
 
     if (!consent) return setError("请勾选'我同意匿名用于产品改进',这是生成报告的前提");
 
-    const trimmedEmail = email.trim();
-    if (trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
-      return setError("邮箱格式不对(可以留空)");
-    }
-
     const finalBasic: BasicInfo = { name: basic.name.trim(), age, gender: basic.gender };
     const finalDim: Dimensions = {
       passion: dim.passion!.trim(),
@@ -99,10 +92,9 @@ export default function Chapter5Form() {
     store.completeModule("context", "context", ctx);
     store.completeModule("dimensions", "dimensions", finalDim);
 
-    // v3.2 新增:把 email + consent 写入 store
+    // v3.3 邮箱后置到报告页,这里只写 consent 到 store
     const p = store.load();
     if (p) {
-      p.email = trimmedEmail || undefined;
       p.consent = true;
       store.save(p);
     }
@@ -346,20 +338,8 @@ export default function Chapter5Form() {
         />
       </Section>
 
-      {/* === 邮箱 + 同意 === */}
-      <Section title="你的邮箱" required>
-        <Field
-          label=""
-          hint="可选。报告可以备份到你的邮箱,后期我们会基于你的反馈持续优化。"
-        >
-          <Input
-            type="email"
-            value={email}
-            onChange={(v) => setEmail(v)}
-            placeholder="13510092636@139.com"
-          />
-        </Field>
-
+      {/* === 同意条款(法律基础)=== */}
+      <Section title="同意" required>
         <label
           className="flex items-start gap-3 cursor-pointer p-3 rounded-md transition"
           style={{
@@ -375,7 +355,11 @@ export default function Chapter5Form() {
             style={{ width: 18, height: 18, accentColor: "var(--color-brand)" }}
           />
           <span className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
-            把报告备份到我邮箱,并接收 Career Compass 的产品改进通知。
+            我同意把测评数据匿名用于 Career Compass 产品改进。
+            <br />
+            <span className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+              报告生成后,可在报告页选择是否留下邮箱接收备份(可选,不强制)。
+            </span>
             <span style={{ color: "var(--color-error)" }}> *</span>
           </span>
         </label>

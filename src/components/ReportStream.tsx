@@ -17,8 +17,10 @@
 import { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Copy, Printer, RotateCcw, AlertCircle, Sparkles, Check } from "lucide-react";
+import { Copy, Printer, RotateCcw, AlertCircle, Sparkles, Check, Mail } from "lucide-react";
 import { store } from "../lib/store";
+
+const INVITE_CODE_KEY = "cc_invite_code";
 
 /**
  * v3.2 阶段性进度。基于 streaming 中 reportText 实时长度判断当前阶段。
@@ -58,6 +60,8 @@ interface SaveResult {
   toEmail?: string;
 }
 
+type SaveStage = "idle" | "saving" | "saved" | "error";
+
 export default function ReportStream() {
   const [status, setStatus] = useState<Status>("idle");
   const [meta, setMeta] = useState<MetaInfo | null>(null);
@@ -65,7 +69,14 @@ export default function ReportStream() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [finishedAt, setFinishedAt] = useState<number | null>(null);
+
+  // v3.3 邮箱后置:报告生成完后,用户主动填邮箱+点保存才触发 /api/save
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [wantEmail, setWantEmail] = useState<boolean>(false);
+  const [saveStage, setSaveStage] = useState<SaveStage>("idle");
   const [saveResult, setSaveResult] = useState<SaveResult | null>(null);
+  const [saveErr, setSaveErr] = useState<string | null>(null);
+
   const abortRef = useRef<AbortController | null>(null);
   const startedRef = useRef(false); // 防 StrictMode 双跑
 
@@ -185,38 +196,77 @@ export default function ReportStream() {
     setStatus("done");
     const finishedTs = Date.now();
     setFinishedAt(finishedTs);
+    // v3.3 不再自动 /api/save,由用户在报告页主动点"保存"按钮触发(见 handleSave)
+  }
 
-    // v3.2 · stream 完成后 fire-and-forget 写 D1(失败不影响用户看报告)
-    if (localMeta && accumulated.length > 500 && profile.consent) {
-      const durationMs = startedAt ? finishedTs - startedAt : 0;
-      try {
-        const saveRes = await fetch("/api/save", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            profile,
-            reportText: accumulated,
-            durationMs,
-            model: localMeta.model,
-            computed: {
-              mbtiType: localMeta.scores.mbtiType,
-              hollandCode: localMeta.scores.hollandCode,
-              valuesTop3: localMeta.scores.valuesTop3
-            }
-          })
-        });
-        if (saveRes.ok) {
-          const body = (await saveRes.json()) as SaveResult;
-          setSaveResult({ ...body, toEmail: profile.email });
-        } else {
-          const errText = await saveRes.text().catch(() => "(no body)");
-          console.warn("[ReportStream] /api/save 写入失败(不影响阅读):", saveRes.status, errText.slice(0, 200));
-        }
-      } catch (err) {
-        console.warn("[ReportStream] /api/save 网络错误(不影响阅读):", err);
+  async function handleSave() {
+    if (!meta) {
+      setSaveErr("等报告生成完再保存");
+      setSaveStage("error");
+      return;
+    }
+    if (reportText.length < 500) {
+      setSaveErr("报告字数过少,无法保存");
+      setSaveStage("error");
+      return;
+    }
+    const profile = store.load();
+    if (!profile?.consent) {
+      setSaveErr("未勾选同意条款,无法保存");
+      setSaveStage("error");
+      return;
+    }
+
+    const trimmedEmail = emailInput.trim();
+    if (wantEmail && trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      setSaveErr("邮箱格式不对");
+      setSaveStage("error");
+      return;
+    }
+
+    const inviteCode = (typeof window !== "undefined")
+      ? localStorage.getItem(INVITE_CODE_KEY) ?? ""
+      : "";
+
+    setSaveStage("saving");
+    setSaveErr(null);
+
+    const durationMs = startedAt && finishedAt ? finishedAt - startedAt : 0;
+
+    try {
+      const resp = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profile: {
+            ...profile,
+            email: wantEmail && trimmedEmail ? trimmedEmail : undefined
+          },
+          inviteCode,
+          reportText,
+          durationMs,
+          model: meta.model,
+          computed: {
+            mbtiType: meta.scores.mbtiType,
+            hollandCode: meta.scores.hollandCode,
+            valuesTop3: meta.scores.valuesTop3
+          }
+        })
+      });
+
+      if (!resp.ok) {
+        const errText = await resp.text().catch(() => "(no body)");
+        setSaveErr(`保存失败 (${resp.status}): ${errText.slice(0, 200)}`);
+        setSaveStage("error");
+        return;
       }
-    } else if (!profile.consent) {
-      console.info("[ReportStream] 用户未勾选 consent,跳过 /api/save");
+
+      const body = (await resp.json()) as SaveResult;
+      setSaveResult({ ...body, toEmail: wantEmail && trimmedEmail ? trimmedEmail : undefined });
+      setSaveStage("saved");
+    } catch (err) {
+      setSaveErr(`网络错误: ${(err as Error).message}`);
+      setSaveStage("error");
     }
   }
 
@@ -415,32 +465,100 @@ export default function ReportStream() {
         </article>
       )}
 
-      {/* === 完成后邮件状态 banner === */}
-      {status === "done" && saveResult?.emailStatus?.sent && saveResult.toEmail && (
+      {/* === 完成后:保存模块 (v3.3 邮箱后置) === */}
+      {status === "done" && saveStage !== "saved" && (
+        <div
+          className="rounded-xl p-5 md:p-6"
+          style={{
+            background: "var(--color-surface-warm)",
+            border: "1px solid var(--color-border-light)"
+          }}
+        >
+          <div className="flex items-start gap-3 mb-4">
+            <Mail size={20} style={{ color: "var(--color-brand)", flexShrink: 0, marginTop: "2px" }} />
+            <div>
+              <p className="text-base font-semibold" style={{ color: "var(--color-text-primary)" }}>
+                想要这份报告的备份吗?
+              </p>
+              <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                你已经勾选了「同意匿名用于产品改进」,点保存后我们会把这次测评的关键数据存档,帮助迭代下一版本。
+                <br />
+                留下邮箱(可选)会同时收到一份 HTML 邮件备份,方便日后回看。
+              </p>
+            </div>
+          </div>
+
+          <label
+            className="flex items-center gap-2 cursor-pointer mb-3"
+            style={{ color: "var(--color-text-primary)" }}
+          >
+            <input
+              type="checkbox"
+              checked={wantEmail}
+              onChange={(e) => setWantEmail(e.target.checked)}
+              style={{ width: 16, height: 16, accentColor: "var(--color-brand)" }}
+            />
+            <span className="text-sm">把报告备份发到我邮箱</span>
+          </label>
+
+          {wantEmail && (
+            <input
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              placeholder="yangstone33@gmail.com"
+              autoComplete="email"
+              className="w-full px-3 py-2.5 rounded-md text-base mb-3 focus:outline-none"
+              style={{
+                background: "white",
+                border: "1.5px solid var(--color-border)",
+                color: "var(--color-text-primary)"
+              }}
+            />
+          )}
+
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saveStage === "saving"}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-semibold cursor-pointer transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ background: "var(--color-brand)", color: "white" }}
+          >
+            {saveStage === "saving" ? "保存中…" : wantEmail ? "保存并发送邮件" : "保存报告"}
+          </button>
+
+          {saveStage === "error" && saveErr && (
+            <p className="text-sm mt-3" style={{ color: "var(--color-error)" }}>
+              {saveErr}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* === 已保存成功 banner === */}
+      {status === "done" && saveStage === "saved" && (
         <div
           className="rounded-lg p-4 flex items-start gap-3"
           style={{ background: "rgba(45, 125, 95, 0.08)", border: "1px solid var(--color-success)" }}
         >
           <Check size={20} style={{ color: "var(--color-success)", flexShrink: 0, marginTop: "2px", strokeWidth: 3 }} />
           <div className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
-            <strong>报告备份已发到 {saveResult.toEmail}</strong>
-            <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
-              发件人 hi@mail.stoneyang.top · 检查垃圾邮件夹找不到时,刷新一下首页或私信我们。
-            </p>
-          </div>
-        </div>
-      )}
-      {status === "done" && saveResult?.emailStatus && !saveResult.emailStatus.sent && saveResult.toEmail && (
-        <div
-          className="rounded-lg p-4 flex items-start gap-3"
-          style={{ background: "rgba(201, 122, 74, 0.08)", border: "1px solid var(--color-accent)" }}
-        >
-          <AlertCircle size={20} style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }} />
-          <div className="text-sm leading-relaxed" style={{ color: "var(--color-text-primary)" }}>
-            <strong>邮件发送暂时失败</strong>
-            <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
-              报告已保存,你可以现场复制全文或打印 PDF;邮件发送问题已记录,后续会人工跟进。
-            </p>
+            <strong>
+              报告已保存
+              {saveResult?.emailStatus?.sent && saveResult.toEmail && (
+                <> · 备份已发到 {saveResult.toEmail}</>
+              )}
+            </strong>
+            {saveResult?.emailStatus?.sent && (
+              <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
+                发件人 hi@mail.stoneyang.top · Gmail 找不到的话查垃圾箱 / Promotions tab。
+              </p>
+            )}
+            {saveResult?.emailStatus && !saveResult.emailStatus.sent && saveResult.toEmail && (
+              <p className="text-xs mt-1" style={{ color: "var(--color-accent)" }}>
+                邮件发送暂时失败(报告已存档,可以复制全文或打印 PDF)。
+              </p>
+            )}
           </div>
         </div>
       )}

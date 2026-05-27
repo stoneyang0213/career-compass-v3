@@ -4,6 +4,7 @@ import Nav from "../components/Nav.astro";
 import Logo from "../components/Logo.astro";
 import Button from "../components/Button.astro";
 import Icon from "../components/Icon.astro";
+import InviteCodeGate from "../components/InviteCodeGate";
 ---
 
 <BaseLayout>
@@ -29,13 +30,10 @@ import Icon from "../components/Icon.astro";
           15 分钟测评 · 7000+ 字深度报告
         </p>
 
-        <Button href="/assess/chapter/1" size="lg">
-          开始测评
-          <Icon name="arrow-right" size={20} />
-        </Button>
+        <InviteCodeGate client:load />
 
         <p class="text-sm mt-6" style="color: var(--color-text-muted);">
-          不需要登录 · 不存数据 · 全程免费
+          不需要登录 · 不存敏感数据 · MVP 内测中
         </p>
       </div>
     </section>
