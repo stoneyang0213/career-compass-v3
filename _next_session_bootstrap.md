@@ -1,6 +1,68 @@
 # Career Compass v3 · 下次开工 bootstrap
 
-**最近一次收工**: 2026-05-26 凌晨(v3.1 vs v2-kimi 报告对比完成,v3.2 改造方案锁定)
+**最近一次收工**: 2026-05-26 凌晨(v3.2 代码全部完成 + commit a385335 已 push,生产部署待 stoneyang dashboard 操作)
+
+## 🟢 v3.2 完成态 + 下次开工:CF Pages 生产部署(2026-05-26)
+
+### 已完成(commit a385335)
+- prompt 报告骨架 v2 kimi 风 11 段(7500+ 字),已端到端跑通(stoneyang 浏览器实测 12972 字)
+- Chapter5Form 学生/职场双卡分流 + 字段动态 + prompt 学生分支(本学期/寒暑假/下一学年,禁创业行话)
+- 首页 SVG 4 圆 Venn 动画 + 4 卡使用场景(化名阿乐/阿宇/小川/林姐,纯场景描述无 quote)
+- D1 持久化:wrangler.toml + migrations/0001_init.sql + /api/save 校验 consent 后 INSERT(本地已跑通)
+- Resend 邮件备份沿用 v2 hi@mail.stoneyang.top,本地 messageId=7e3b81a3 已成功 deliver
+- ReportStream 5 步阶段性进度条(基于 reportText.length 阈值)
+- "导师寄语" 改名 **"写在最后"**
+
+### 下次开工:**CF Pages 生产部署 6 步**(全在 CF dashboard,绕开 wrangler login OAuth timeout)
+
+**Step 1**(stoneyang dashboard):创建 D1 database
+- https://dash.cloudflare.com → Workers & Pages → D1 → Create database
+- Name: `career-compass-v3` · Location: APAC
+- **复制 Database ID 给 Claude**
+
+**Step 2**(stoneyang dashboard D1 Console):
+- 把 `migrations/0001_init.sql` 整段贴进 SQL Console → Execute
+- 创建 assessments 表 + 3 个 index
+
+**Step 3**(Claude):
+- 拿到 Database ID 后,回填 wrangler.toml 的 `database_id`
+- git commit + push(触发 Pages 自动 re-deploy)
+
+**Step 4**(stoneyang dashboard):创建 Pages 项目
+- Workers & Pages → Create application → Pages → Connect to Git → 选 `stoneyang0213/career-compass-v3`
+- Build: Framework=Astro, Build command=`npm run build`, Output dir=`dist`
+- Save and Deploy(**首次会失败,缺 env vars + binding,这是预期**)
+
+**Step 5**(stoneyang dashboard):配 env vars + D1 binding
+- Settings → Environment variables (Production) 加 5 个:
+  - `SILICONFLOW_API_KEY` (encrypt) = `sk-***`(从本地 `.dev.vars` 复制,见密码管理器)
+  - `LLM_MODEL_PRIMARY` = `Pro/moonshotai/Kimi-K2.6`
+  - `LLM_MODEL_FALLBACK` = `Pro/zai-org/GLM-5.1`
+  - `RESEND_API_KEY` (encrypt) = `re_***`(从本地 `.dev.vars` 复制,见密码管理器)
+  - `RESEND_FROM` = `Career Compass <hi@mail.stoneyang.top>`
+- Settings → Functions → D1 database bindings: Variable name = `DB` (大写,与代码 `env.DB` 一致),Database = `career-compass-v3`
+- Deployments → Retry latest deployment
+
+**Step 6**(一起):验证
+- 访问 `https://career-compass-v3.pages.dev/`(可能 1-2 分钟冷启动)
+- 走真实表单(不要 dev-seed):章 5 末尾填邮箱 `yangstone33@gmail.com` + 必勾 consent
+- /report 跑 Kimi ~5 分钟
+- 验:① 报告底部绿色 banner "已发到邮箱" ② Gmail 收到 ③ D1 Console 跑 `SELECT id, email, identity_role, report_chars FROM assessments;` 验证写入
+
+### 已知风险 / 注意
+- **wrangler login OAuth Windows 系统代理 callback timeout** — 已绕开,走 dashboard 全手动
+- **D1 free tier 5 个限制** — 之前 stoneyang 账号有多少占用未知,创建时会看到
+- **Astro CF adapter platformProxy** — 本地用,已在 astro.config.mjs 配 `{ enabled: true, configPath: 'wrangler.toml' }`
+- **报告字数 12972 超 7500-9000 上限** — Kimi 主动写长,质量没问题就先不动 prompt;若想压短,改 prompt 的"总字数"硬约束到 7500-9500 严格上限
+
+### v3.2 端到端验收的非血亏教训(参考)
+1. **dev-seed 缺 email + consent 字段 → 自动 save 不触发** — 解决:让 stoneyang console paste 救场;正常用户走 Chapter5Form 不会有此问题
+2. **多端口 dev server 竞争** — 旧 npm run dev 残留 4321,新 server 落 4322/4323,stoneyang 浏览器实际请求旧 server。修法:netstat | grep ":432X " → taskkill
+3. **curl + Git Bash + 中文 UTF-8 = mojibake** — 直接 `-d '{"subject":"中文"}'` 会被 Windows GBK 转坏。修法:写 JSON 到文件 → `curl --data-binary @file.json`。生产代码用 fetch 不受影响
+
+---
+
+(以下为 2026-05-26 凌晨锁定的旧 v3.2 改造方案,已全部落地,留作历史参考)
 
 ## 🟢 v3.2 改造方案(2026-05-26 锁定,明早直接执行)
 

@@ -8,4 +8,4 @@ pages_build_output_dir = "./dist"
 [[d1_databases]]
 binding = "DB"                          # env.DB 在 /api/* 里访问
 database_name = "career-compass-v3"
-database_id = "LOCAL_PLACEHOLDER"       # 部署前替换为 CF dashboard 创建后的真实 UUID
+database_id = "3d52799a-f7bf-4891-a152-bbd21163939f"  # career-compass-v3 D1, APAC, 2026-05-27
