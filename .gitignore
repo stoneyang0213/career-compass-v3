@@ -158,3 +158,6 @@ baseline_from_v2/samples/
 # 通用挡:root 中文名 .txt 全挡(stoneyang 不会在 root 创建供 git 跟踪的中文 .txt)
 个人案例文本.txt
 *个人*.txt
+
+# === 2026-05-27:bootstrap 私人开工 prompt,易含 API key 明文 ===
+_next_session_bootstrap.md
