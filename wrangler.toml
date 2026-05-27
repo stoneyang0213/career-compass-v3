@@ -1,9 +1,16 @@
-# Career Compass v3 · Wrangler config
-# 本地 dev 用 `wrangler pages dev`,会自动用 .wrangler/state/v3/d1/ 下的本地 SQLite。
-# 生产部署时需在 CF dashboard 创建真正的 D1 database,再回填 database_id。
+# Career Compass v3 · Wrangler config(Workers 部署,2026-05-27 从 Pages 改 Workers)
+# 本地 dev 用 `astro dev`(platformProxy 自动加载本地 .wrangler/state)。
+# 生产部署:CF Workers Builds 连 GitHub repo,build command = `npm run build`。
+#
+# Astro 6 + @astrojs/cloudflare 13 用统一 entrypoint `@astrojs/cloudflare/entrypoints/server`,
+# adapter 自动处理 dist/_worker.js 和 static assets,不需要手写 [assets] block。
 name = "career-compass-v3"
+main = "@astrojs/cloudflare/entrypoints/server"
 compatibility_date = "2024-09-23"
-pages_build_output_dir = "./dist"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
 
 [[d1_databases]]
 binding = "DB"                          # env.DB 在 /api/* 里访问
